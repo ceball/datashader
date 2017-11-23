@@ -1,0 +1,10 @@
+nyc taxi
+________
+
+.. notebook:: datashader ../../examples/topics/nyc_taxi.ipynb
+    :offset: 1
+
+
+-------
+
+`Right click to download this notebook from GitHub. <https://raw.githubusercontent.com/ioam/datashader/master/examples/topics/nyc_taxi.ipynb>`_

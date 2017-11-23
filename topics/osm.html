@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8"/>
+  <title>
+   osm — datashader
+  </title>
+  <meta content="Stop plotting your data - annotate your data and let it visualize itself." name="description"/>
+  <meta content="datashader contributors" name="author"/>
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js">
+  </script>
+  <script>
+   WebFont.load({
+      google: {
+        families: ['Source Sans Pro']
+      }
+    });
+  </script>
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="../_static/custom.css" rel="stylesheet"/>
+  <link href="../_static/css/main.css" rel="stylesheet"/>
+  <!-- Scripts
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">
+  </script>
+  <script async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript">
+  </script>
+  <script src="../_static/js/main.js">
+  </script>
+  <script src="../_static/custom.js">
+  </script>
+  <script src="../_static/require.js">
+  </script>
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="../_static/images/favicon.ico" rel="icon" type="image/png"/>
+  <!-- Canonical
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="/topics/osm.html" rel="canonical"/>
+ </head>
+ <body class="">
+  <header class="navigation">
+   <div class="wrapper">
+    <a class="logo" href="/">
+     <img alt="Logo" src="../_static/images/logo.png"/>
+    </a>
+    <a class="navigation-menu logo-text" href="/">
+     datashader
+    </a>
+    <a class="navigation-menu-button" href="javascript:void(0)" id="js-mobile-menu">
+     Menu
+    </a>
+    <nav>
+     <ul class="navigation-menu show" id="js-navigation-menu">
+      <li class="nav-link">
+       <a href="../getting_started/index.html">
+        Getting Started
+       </a>
+      </li>
+      <li class="nav-link">
+       <a href="../user_guide/index.html">
+        User Guide
+       </a>
+      </li>
+      <li class="nav-link">
+       <a href="index.html">
+        Topics
+       </a>
+      </li>
+      <li class="nav-link">
+       <a href="../performance.html">
+        Performance
+       </a>
+      </li>
+      <li class="nav-link">
+       <a href="../api.html">
+        API
+       </a>
+      </li>
+      <li class="nav-link">
+       <a href="../FAQ.html">
+        FAQ
+       </a>
+      </li>
+      <li class="nav-link">
+       <div style="display:inline-block;vertical-align: middle;">
+        <div class="search-bar">
+         <form action="../search.html" method="get" role="search">
+          <input name="q" placeholder="Search" type="search"/>
+          <button type="submit">
+           <img alt="Search Icon" src="https://raw.githubusercontent.com/thoughtbot/refills/master/source/images/search-icon-black.png"/>
+          </button>
+         </form>
+        </div>
+       </div>
+      </li>
+     </ul>
+    </nav>
+   </div>
+  </header>
+  <!-- MAIN BODY OF DOCS –––––––––––––––––– -->
+  <div class="docs section">
+   <div id="hacketyhackhack">
+    <!-- style="width:20%;margin-right: 100px;"> -->
+    <!--style="display: none;"> style="display:none;"> -->
+    <div class="toc" style="width:15%; margin-right:20px;">
+     <ul class="current">
+      <li class="toctree-l1">
+       <a class="reference internal" href="../getting_started/index.html">
+        Getting Started
+       </a>
+      </li>
+      <li class="toctree-l1">
+       <a class="reference internal" href="../user_guide/index.html">
+        User Guide
+       </a>
+      </li>
+      <li class="toctree-l1 current">
+       <a class="reference internal" href="index.html">
+        Topics
+       </a>
+       <ul class="current">
+        <li class="toctree-l2">
+         <a class="reference internal" href="census.html">
+          census
+         </a>
+        </li>
+        <li class="toctree-l2">
+         <a class="reference internal" href="gerrymandering.html">
+          gerrymandering
+         </a>
+        </li>
+        <li class="toctree-l2">
+         <a class="reference internal" href="landsat.html">
+          landsat
+         </a>
+        </li>
+        <li class="toctree-l2">
+         <a class="reference internal" href="lidar.html">
+          lidar
+         </a>
+        </li>
+        <li class="toctree-l2">
+         <a class="reference internal" href="network_packets.html">
+          network packets
+         </a>
+        </li>
+        <li class="toctree-l2">
+         <a class="reference internal" href="nyc_taxi.html">
+          nyc taxi
+         </a>
+        </li>
+        <li class="toctree-l2">
+         <a class="reference internal" href="opensky.html">
+          opensky
+         </a>
+        </li>
+        <li class="toctree-l2">
+         <a class="reference internal" href="osm-1billion.html">
+          osm-1billion
+         </a>
+        </li>
+        <li class="toctree-l2 current">
+         <a class="current reference internal" href="#">
+          osm
+         </a>
+        </li>
+        <li class="toctree-l2">
+         <a class="reference internal" href="param_dashboard.html">
+          param dashboard
+         </a>
+        </li>
+        <li class="toctree-l2">
+         <a class="reference internal" href="solar.html">
+          solar
+         </a>
+        </li>
+        <li class="toctree-l2">
+         <a class="reference internal" href="uk_researchers.html">
+          uk_researchers
+         </a>
+        </li>
+       </ul>
+      </li>
+      <li class="toctree-l1">
+       <a class="reference internal" href="../performance.html">
+        Performance
+       </a>
+      </li>
+      <li class="toctree-l1">
+       <a class="reference internal" href="../api.html">
+        API
+       </a>
+      </li>
+      <li class="toctree-l1">
+       <a class="reference internal" href="../FAQ.html">
+        FAQ
+       </a>
+      </li>
+     </ul>
+    </div>
+   </div>
+   <div class="content">
+    <!-- style="max-width:80%;margin-left:auto;margin-right: auto;">-->
+    <div class="section" id="osm">
+     <h1>
+      osm
+      <a class="headerlink" href="#osm" title="Permalink to this headline">
+       ¶
+      </a>
+     </h1>
+     Notebook conversion failed with the following traceback: 
+An error occurred while executing the following cell:
+------------------
+diag.visualize([prof, rprof])
+None
+------------------
+
+[0;31m--------------------------------------------------------------------[0m
+[0;31mImportError[0m                        Traceback (most recent call last)
+[0;32m
+     <ipython-input-6-bd1b5353d3da>
+      [0m in [0;36m
+      <module>
+       [0;34m()[0m
+[0;32m----&gt; 1[0;31m [0mdiag[0m[0;34m.[0m[0mvisualize[0m[0;34m([0m[0;34m[[0m[0mprof[0m[0;34m,[0m [0mrprof[0m[0;34m][0m[0;34m)[0m[0;34m[0m[0m
+[0m[1;32m      2[0m [0;32mNone[0m[0;34m[0m[0m
+
+[0;32m~/Eunectes/mc3/envs/dsdev/lib/python3.6/site-packages/dask/diagnostics/profile_visualize.py[0m in [0;36mvisualize[0;34m(profilers, file_path, show, save, **kwargs)[0m
+[1;32m    169[0m     """
+[1;32m    170[0m     [0mbp[0m [0;34m=[0m [0mimport_required[0m[0;34m([0m[0;34m'bokeh.plotting'[0m[0;34m,[0m [0m_BOKEH_MISSING_MSG[0m[0;34m)[0m[0;34m[0m[0m
+[0;32m--&gt; 171[0;31m     [0;32mfrom[0m [0mbokeh[0m[0;34m.[0m[0mio[0m [0;32mimport[0m [0m_state[0m[0;34m[0m[0m
+[0m[1;32m    172[0m [0;34m[0m[0m
+[1;32m    173[0m     [0;32mif[0m [0;32mnot[0m [0m_state[0m[0;34m.[0m[0m_notebook[0m[0;34m:[0m[0;34m[0m[0m
+
+[0;31mImportError[0m: cannot import name '_state'
+ImportError: cannot import name '_state'
+       <hr class="docutils"/>
+       <p>
+        <a class="reference external" href="https://raw.githubusercontent.com/ioam/datashader/master/examples/topics/osm.ipynb">
+         Right click to download this notebook from GitHub.
+        </a>
+       </p>
+      </module>
+     </ipython-input-6-bd1b5353d3da>
+    </div>
+   </div>
+  </div>
+  <!-- END MAIN BODY OF DOCS ––––––––––––– -->
+  <footer class="footer">
+   <div class="footer-links">
+    <ul>
+     <li>
+      <span class="footer-title">
+       Links
+      </span>
+     </li>
+     <li>
+      <a href="../getting_started/index.html">
+       Getting Started
+      </a>
+     </li>
+     <li>
+      <a href="../user_guide/index.html">
+       User Guide
+      </a>
+     </li>
+     <li>
+      <a href="index.html">
+       Topics
+      </a>
+     </li>
+     <li>
+      <a href="../performance.html">
+       Performance
+      </a>
+     </li>
+     <li>
+      <a href="../api.html">
+       API
+      </a>
+     </li>
+     <li>
+      <a href="../FAQ.html">
+       FAQ
+      </a>
+     </li>
+    </ul>
+    <ul>
+     <li>
+      <span class="footer-title">
+       Join Us
+      </span>
+     </li>
+     <li>
+      <a href="//twitter.com/datashader/.html">
+       Twitter
+      </a>
+     </li>
+     <li>
+      <a href="//github.com/bokeh/datashader/.html">
+       Github
+      </a>
+     </li>
+    </ul>
+    <ul class="copyright">
+     <li>
+      2016, Continuum Analytics
+     </li>
+    </ul>
+   </div>
+  </footer>
+  <!-- Google Analytics -->
+  <script>
+   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-61554933-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- MathJax Config -->
+  <script type="text/x-mathjax-config">
+   MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+  </script>
+  <!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+ </body>
+</html>

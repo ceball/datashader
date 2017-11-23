@@ -1,0 +1,10 @@
+Pipeline
+________
+
+.. notebook:: datashader ../../examples/getting_started/2-Pipeline.ipynb
+    :offset: 1
+
+
+-------
+
+`Right click to download this notebook from GitHub. <https://raw.githubusercontent.com/ioam/datashader/master/examples/getting_started/2-Pipeline.ipynb>`_

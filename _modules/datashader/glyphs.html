@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8"/>
+  <title>
+   datashader.glyphs — datashader
+  </title>
+  <meta content="Stop plotting your data - annotate your data and let it visualize itself." name="description"/>
+  <meta content="datashader contributors" name="author"/>
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js">
+  </script>
+  <script>
+   WebFont.load({
+      google: {
+        families: ['Source Sans Pro']
+      }
+    });
+  </script>
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="../../_static/custom.css" rel="stylesheet"/>
+  <link href="../../_static/css/main.css" rel="stylesheet"/>
+  <!-- Scripts
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">
+  </script>
+  <script async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript">
+  </script>
+  <script src="../../_static/js/main.js">
+  </script>
+  <script src="../../_static/custom.js">
+  </script>
+  <script src="../../_static/require.js">
+  </script>
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="../../_static/images/favicon.ico" rel="icon" type="image/png"/>
+  <!-- Canonical
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="/_modules/datashader/glyphs.html" rel="canonical"/>
+ </head>
+ <body class="">
+  <header class="navigation">
+   <div class="wrapper">
+    <a class="logo" href="/">
+     <img alt="Logo" src="../../_static/images/logo.png"/>
+    </a>
+    <a class="navigation-menu logo-text" href="/">
+     datashader
+    </a>
+    <a class="navigation-menu-button" href="javascript:void(0)" id="js-mobile-menu">
+     Menu
+    </a>
+    <nav>
+     <ul class="navigation-menu show" id="js-navigation-menu">
+      <li class="nav-link">
+       <a href="../../getting_started/index.html">
+        Getting Started
+       </a>
+      </li>
+      <li class="nav-link">
+       <a href="../../user_guide/index.html">
+        User Guide
+       </a>
+      </li>
+      <li class="nav-link">
+       <a href="../../topics/index.html">
+        Topics
+       </a>
+      </li>
+      <li class="nav-link">
+       <a href="../../performance.html">
+        Performance
+       </a>
+      </li>
+      <li class="nav-link">
+       <a href="../../api.html">
+        API
+       </a>
+      </li>
+      <li class="nav-link">
+       <a href="../../FAQ.html">
+        FAQ
+       </a>
+      </li>
+      <li class="nav-link">
+       <div style="display:inline-block;vertical-align: middle;">
+        <div class="search-bar">
+         <form action="../../search.html" method="get" role="search">
+          <input name="q" placeholder="Search" type="search"/>
+          <button type="submit">
+           <img alt="Search Icon" src="https://raw.githubusercontent.com/thoughtbot/refills/master/source/images/search-icon-black.png"/>
+          </button>
+         </form>
+        </div>
+       </div>
+      </li>
+     </ul>
+    </nav>
+   </div>
+  </header>
+  <!-- MAIN BODY OF DOCS –––––––––––––––––– -->
+  <div class="docs section">
+   <div id="hacketyhackhack">
+    <!-- style="width:20%;margin-right: 100px;"> -->
+    <!--style="display: none;"> style="display:none;"> -->
+    <div class="toc" style="width:15%; margin-right:20px;">
+     <ul>
+      <li class="toctree-l1">
+       <a class="reference internal" href="../../getting_started/index.html">
+        Getting Started
+       </a>
+      </li>
+      <li class="toctree-l1">
+       <a class="reference internal" href="../../user_guide/index.html">
+        User Guide
+       </a>
+      </li>
+      <li class="toctree-l1">
+       <a class="reference internal" href="../../topics/index.html">
+        Topics
+       </a>
+      </li>
+      <li class="toctree-l1">
+       <a class="reference internal" href="../../performance.html">
+        Performance
+       </a>
+      </li>
+      <li class="toctree-l1">
+       <a class="reference internal" href="../../api.html">
+        API
+       </a>
+      </li>
+      <li class="toctree-l1">
+       <a class="reference internal" href="../../FAQ.html">
+        FAQ
+       </a>
+      </li>
+     </ul>
+    </div>
+   </div>
+   <div class="content">
+    <!-- style="max-width:80%;margin-left:auto;margin-right: auto;">-->
+    <h1>
+     Source code for datashader.glyphs
+    </h1>
+    <div class="highlight">
+     <pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">division</span>
+
+<span class="kn">from</span> <span class="nn">toolz</span> <span class="k">import</span> <span class="n">memoize</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">.core</span> <span class="k">import</span> <span class="n">Expr</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">ngjit</span><span class="p">,</span> <span class="n">isreal</span>
+
+
+<span class="k">class</span> <span class="nc">Glyph</span><span class="p">(</span><span class="n">Expr</span><span class="p">):</span>
+    <span class="sd">"""Base class for glyphs."""</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">_PointLike</span><span class="p">(</span><span class="n">Glyph</span><span class="p">):</span>
+    <span class="sd">"""Shared methods between Point and Line"""</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_dshape</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">isreal</span><span class="p">(</span><span class="n">in_dshape</span><span class="o">.</span><span class="n">measure</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">]):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">'x must be real'</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">isreal</span><span class="p">(</span><span class="n">in_dshape</span><span class="o">.</span><span class="n">measure</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">]):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">'y must be real'</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="nd">@ngjit</span>
+    <span class="k">def</span> <span class="nf">_compute_x_bounds</span><span class="p">(</span><span class="n">xs</span><span class="p">):</span>
+        <span class="n">minval</span> <span class="o">=</span> <span class="n">maxval</span> <span class="o">=</span> <span class="n">xs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">minval</span><span class="p">)</span> <span class="ow">or</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">minval</span><span class="p">:</span>
+                    <span class="n">minval</span> <span class="o">=</span> <span class="n">x</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">maxval</span><span class="p">)</span> <span class="ow">or</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">maxval</span><span class="p">:</span>
+                    <span class="n">maxval</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">minval</span><span class="p">)</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">maxval</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">'All x coordinates are NaN.'</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">minval</span><span class="p">,</span> <span class="n">maxval</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="nd">@ngjit</span>
+    <span class="k">def</span> <span class="nf">_compute_y_bounds</span><span class="p">(</span><span class="n">ys</span><span class="p">):</span>
+        <span class="n">minval</span> <span class="o">=</span> <span class="n">maxval</span> <span class="o">=</span> <span class="n">ys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">ys</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">minval</span><span class="p">)</span> <span class="ow">or</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">minval</span><span class="p">:</span>
+                    <span class="n">minval</span> <span class="o">=</span> <span class="n">y</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">maxval</span><span class="p">)</span> <span class="ow">or</span> <span class="n">y</span> <span class="o">&gt;</span> <span class="n">maxval</span><span class="p">:</span>
+                    <span class="n">maxval</span> <span class="o">=</span> <span class="n">y</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">minval</span><span class="p">)</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">maxval</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">'All y coordinates are NaN.'</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">minval</span><span class="p">,</span> <span class="n">maxval</span>
+
+    <span class="nd">@memoize</span>
+    <span class="k">def</span> <span class="nf">_compute_x_bounds_dask</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
+        <span class="sd">"""Like ``PointLike._compute_x_bounds``, but memoized because</span>
+<span class="sd">        ``df`` is immutable/hashable (a Dask dataframe).</span>
+<span class="sd">        """</span>
+        <span class="n">xs</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">xs</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span>
+
+    <span class="nd">@memoize</span>
+    <span class="k">def</span> <span class="nf">_compute_y_bounds_dask</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
+        <span class="sd">"""Like ``PointLike._compute_y_bounds``, but memoized because</span>
+<span class="sd">        ``df`` is immutable/hashable (a Dask dataframe).</span>
+<span class="sd">        """</span>
+        <span class="n">ys</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">ys</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">ys</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Point"><a class="viewcode-back" href="../../api.html#datashader.glyphs.Point">[docs]</a><span class="k">class</span> <span class="nc">Point</span><span class="p">(</span><span class="n">_PointLike</span><span class="p">):</span>
+    <span class="sd">"""A point, with center at ``x`` and ``y``.</span>
+
+<span class="sd">    Points map each record to a single bin.</span>
+<span class="sd">    Points falling exactly on the upper bounds are treated as a special case,</span>
+<span class="sd">    mapping into the previous bin rather than being cropped off.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x, y : str</span>
+<span class="sd">        Column names for the x and y coordinates of each point.</span>
+<span class="sd">    """</span>
+    <span class="nd">@memoize</span>
+    <span class="k">def</span> <span class="nf">_build_extend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_mapper</span><span class="p">,</span> <span class="n">y_mapper</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">append</span><span class="p">):</span>
+        <span class="n">x_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span>
+        <span class="n">y_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span>
+
+        <span class="nd">@ngjit</span>
+        <span class="k">def</span> <span class="nf">_extend</span><span class="p">(</span><span class="n">vt</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="o">*</span><span class="n">aggs_and_cols</span><span class="p">):</span>
+            <span class="n">sx</span><span class="p">,</span> <span class="n">tx</span><span class="p">,</span> <span class="n">sy</span><span class="p">,</span> <span class="n">ty</span> <span class="o">=</span> <span class="n">vt</span>
+            <span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">=</span> <span class="n">bounds</span>
+
+            <span class="k">def</span> <span class="nf">map_onto_pixel</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+                <span class="n">xx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">x_mapper</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">sx</span> <span class="o">+</span> <span class="n">tx</span><span class="p">)</span>
+                <span class="n">yy</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">y_mapper</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="n">sy</span> <span class="o">+</span> <span class="n">ty</span><span class="p">)</span>
+                <span class="c1"># Points falling on upper bound are mapped into previous bin</span>
+                <span class="k">return</span> <span class="p">(</span><span class="n">xx</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="n">xmax</span> <span class="k">else</span> <span class="n">xx</span><span class="p">,</span>
+                        <span class="n">yy</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">y</span> <span class="o">==</span> <span class="n">ymax</span> <span class="k">else</span> <span class="n">yy</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">xs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">xs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">y</span> <span class="o">=</span> <span class="n">ys</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">xmin</span> <span class="o">&lt;=</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="n">xmax</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">ymin</span> <span class="o">&lt;=</span> <span class="n">y</span> <span class="o">&lt;=</span> <span class="n">ymax</span><span class="p">):</span>
+                    <span class="n">xi</span><span class="p">,</span> <span class="n">yi</span> <span class="o">=</span> <span class="n">map_onto_pixel</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+                    <span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">xi</span><span class="p">,</span> <span class="n">yi</span><span class="p">,</span> <span class="o">*</span><span class="n">aggs_and_cols</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">extend</span><span class="p">(</span><span class="n">aggs</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">vt</span><span class="p">,</span> <span class="n">bounds</span><span class="p">):</span>
+            <span class="n">xs</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">x_name</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+            <span class="n">ys</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">y_name</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+            <span class="n">cols</span> <span class="o">=</span> <span class="n">aggs</span> <span class="o">+</span> <span class="n">info</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+            <span class="n">_extend</span><span class="p">(</span><span class="n">vt</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="o">*</span><span class="n">cols</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">extend</span></div>
+
+
+<div class="viewcode-block" id="Line"><a class="viewcode-back" href="../../api.html#datashader.glyphs.Line">[docs]</a><span class="k">class</span> <span class="nc">Line</span><span class="p">(</span><span class="n">_PointLike</span><span class="p">):</span>
+    <span class="sd">"""A line, with vertices defined by ``x`` and ``y``.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x, y : str</span>
+<span class="sd">        Column names for the x and y coordinates of each vertex.</span>
+<span class="sd">    """</span>
+    <span class="nd">@memoize</span>
+    <span class="k">def</span> <span class="nf">_build_extend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_mapper</span><span class="p">,</span> <span class="n">y_mapper</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">append</span><span class="p">):</span>
+        <span class="n">map_onto_pixel</span> <span class="o">=</span> <span class="n">_build_map_onto_pixel</span><span class="p">(</span><span class="n">x_mapper</span><span class="p">,</span> <span class="n">y_mapper</span><span class="p">)</span>
+        <span class="n">draw_line</span> <span class="o">=</span> <span class="n">_build_draw_line</span><span class="p">(</span><span class="n">append</span><span class="p">)</span>
+        <span class="n">extend_line</span> <span class="o">=</span> <span class="n">_build_extend_line</span><span class="p">(</span><span class="n">draw_line</span><span class="p">,</span> <span class="n">map_onto_pixel</span><span class="p">)</span>
+        <span class="n">x_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span>
+        <span class="n">y_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span>
+
+        <span class="k">def</span> <span class="nf">extend</span><span class="p">(</span><span class="n">aggs</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">vt</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">plot_start</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <span class="n">xs</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">x_name</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+            <span class="n">ys</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">y_name</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+            <span class="n">cols</span> <span class="o">=</span> <span class="n">aggs</span> <span class="o">+</span> <span class="n">info</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+            <span class="n">extend_line</span><span class="p">(</span><span class="n">vt</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">plot_start</span><span class="p">,</span> <span class="o">*</span><span class="n">cols</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">extend</span></div>
+
+
+<span class="c1"># -- Helpers for computing line geometry --</span>
+
+<span class="k">def</span> <span class="nf">_build_map_onto_pixel</span><span class="p">(</span><span class="n">x_mapper</span><span class="p">,</span> <span class="n">y_mapper</span><span class="p">):</span>
+    <span class="nd">@ngjit</span>
+    <span class="k">def</span> <span class="nf">map_onto_pixel</span><span class="p">(</span><span class="n">vt</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="sd">"""Map points onto pixel grid"""</span>
+        <span class="n">sx</span><span class="p">,</span> <span class="n">tx</span><span class="p">,</span> <span class="n">sy</span><span class="p">,</span> <span class="n">ty</span> <span class="o">=</span> <span class="n">vt</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">=</span> <span class="n">bounds</span>
+        <span class="n">xx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">x_mapper</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">sx</span> <span class="o">+</span> <span class="n">tx</span><span class="p">)</span>
+        <span class="n">yy</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">y_mapper</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="n">sy</span> <span class="o">+</span> <span class="n">ty</span><span class="p">)</span>
+        <span class="c1"># Points falling on upper bound are mapped into previous bin</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">xx</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="n">xmax</span> <span class="k">else</span> <span class="n">xx</span><span class="p">,</span>
+                <span class="n">yy</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">y</span> <span class="o">==</span> <span class="n">ymax</span> <span class="k">else</span> <span class="n">yy</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">map_onto_pixel</span>
+
+
+<span class="k">def</span> <span class="nf">_build_draw_line</span><span class="p">(</span><span class="n">append</span><span class="p">):</span>
+    <span class="sd">"""Specialize a line plotting kernel for a given append/axis combination"""</span>
+    <span class="nd">@ngjit</span>
+    <span class="k">def</span> <span class="nf">draw_line</span><span class="p">(</span><span class="n">x0i</span><span class="p">,</span> <span class="n">y0i</span><span class="p">,</span> <span class="n">x1i</span><span class="p">,</span> <span class="n">y1i</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">plot_start</span><span class="p">,</span> <span class="n">clipped</span><span class="p">,</span> <span class="o">*</span><span class="n">aggs_and_cols</span><span class="p">):</span>
+        <span class="sd">"""Draw a line using Bresenham's algorithm</span>
+
+<span class="sd">        This method plots a line segment with integer coordinates onto a pixel</span>
+<span class="sd">        grid. The vertices are assumed to have already been scaled, transformed,</span>
+<span class="sd">        and clipped within the bounds.</span>
+
+<span class="sd">        The following algorithm is the more general Bresenham's algorithm that</span>
+<span class="sd">        works with both float and integer coordinates. A future performance</span>
+<span class="sd">        improvement would replace this algorithm with the integer-specific one.</span>
+<span class="sd">        """</span>
+        <span class="n">dx</span> <span class="o">=</span> <span class="n">x1i</span> <span class="o">-</span> <span class="n">x0i</span>
+        <span class="n">ix</span> <span class="o">=</span> <span class="p">(</span><span class="n">dx</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">dx</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">dx</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">dx</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span>
+
+        <span class="n">dy</span> <span class="o">=</span> <span class="n">y1i</span> <span class="o">-</span> <span class="n">y0i</span>
+        <span class="n">iy</span> <span class="o">=</span> <span class="p">(</span><span class="n">dy</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">dy</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">dy</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">dy</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span>
+
+        <span class="k">if</span> <span class="n">plot_start</span><span class="p">:</span>
+            <span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">x0i</span><span class="p">,</span> <span class="n">y0i</span><span class="p">,</span> <span class="o">*</span><span class="n">aggs_and_cols</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">dx</span> <span class="o">&gt;=</span> <span class="n">dy</span><span class="p">:</span>
+            <span class="c1"># If vertices weren't clipped and are concurrent in integer space,</span>
+            <span class="c1"># call append and return, as the second vertex won't be hit below.</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">clipped</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span><span class="n">dx</span> <span class="o">|</span> <span class="n">dy</span><span class="p">):</span>
+                <span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">x0i</span><span class="p">,</span> <span class="n">y0i</span><span class="p">,</span> <span class="o">*</span><span class="n">aggs_and_cols</span><span class="p">)</span>
+                <span class="k">return</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">dy</span> <span class="o">-</span> <span class="n">dx</span>
+            <span class="k">while</span> <span class="n">x0i</span> <span class="o">!=</span> <span class="n">x1i</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">error</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="p">(</span><span class="n">error</span> <span class="ow">or</span> <span class="n">ix</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+                    <span class="n">error</span> <span class="o">-=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">dx</span>
+                    <span class="n">y0i</span> <span class="o">+=</span> <span class="n">iy</span>
+                <span class="n">error</span> <span class="o">+=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">dy</span>
+                <span class="n">x0i</span> <span class="o">+=</span> <span class="n">ix</span>
+                <span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">x0i</span><span class="p">,</span> <span class="n">y0i</span><span class="p">,</span> <span class="o">*</span><span class="n">aggs_and_cols</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">dx</span> <span class="o">-</span> <span class="n">dy</span>
+            <span class="k">while</span> <span class="n">y0i</span> <span class="o">!=</span> <span class="n">y1i</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">error</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="p">(</span><span class="n">error</span> <span class="ow">or</span> <span class="n">iy</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+                    <span class="n">error</span> <span class="o">-=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">dy</span>
+                    <span class="n">x0i</span> <span class="o">+=</span> <span class="n">ix</span>
+                <span class="n">error</span> <span class="o">+=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">dx</span>
+                <span class="n">y0i</span> <span class="o">+=</span> <span class="n">iy</span>
+                <span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">x0i</span><span class="p">,</span> <span class="n">y0i</span><span class="p">,</span> <span class="o">*</span><span class="n">aggs_and_cols</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">draw_line</span>
+
+
+<span class="k">def</span> <span class="nf">_build_extend_line</span><span class="p">(</span><span class="n">draw_line</span><span class="p">,</span> <span class="n">map_onto_pixel</span><span class="p">):</span>
+    <span class="nd">@ngjit</span>
+    <span class="k">def</span> <span class="nf">outside_bounds</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">x0</span> <span class="o">&lt;</span> <span class="n">xmin</span> <span class="ow">and</span> <span class="n">x1</span> <span class="o">&lt;</span> <span class="n">xmin</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="n">x0</span> <span class="o">&gt;</span> <span class="n">xmax</span> <span class="ow">and</span> <span class="n">x1</span> <span class="o">&gt;</span> <span class="n">xmax</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="n">y0</span> <span class="o">&lt;</span> <span class="n">ymin</span> <span class="ow">and</span> <span class="n">y1</span> <span class="o">&lt;</span> <span class="n">ymin</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="n">y0</span> <span class="o">&gt;</span> <span class="n">ymax</span> <span class="ow">and</span> <span class="n">y1</span> <span class="o">&gt;</span> <span class="n">ymax</span>
+
+    <span class="nd">@ngjit</span>
+    <span class="k">def</span> <span class="nf">clipt</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">):</span>
+        <span class="n">accept</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="n">p</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">q</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">q</span> <span class="o">/</span> <span class="n">p</span>
+            <span class="k">if</span> <span class="n">r</span> <span class="o">&gt;</span> <span class="n">t1</span><span class="p">:</span>
+                <span class="n">accept</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">elif</span> <span class="n">r</span> <span class="o">&gt;</span> <span class="n">t0</span><span class="p">:</span>
+                <span class="n">t0</span> <span class="o">=</span> <span class="n">r</span>
+        <span class="k">elif</span> <span class="n">p</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">q</span> <span class="o">&lt;</span> <span class="n">p</span><span class="p">:</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">q</span> <span class="o">/</span> <span class="n">p</span>
+            <span class="k">if</span> <span class="n">r</span> <span class="o">&lt;</span> <span class="n">t0</span><span class="p">:</span>
+                <span class="n">accept</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">elif</span> <span class="n">r</span> <span class="o">&lt;</span> <span class="n">t1</span><span class="p">:</span>
+                <span class="n">t1</span> <span class="o">=</span> <span class="n">r</span>
+        <span class="k">elif</span> <span class="n">q</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">accept</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">accept</span>
+
+    <span class="nd">@ngjit</span>
+    <span class="k">def</span> <span class="nf">extend_line</span><span class="p">(</span><span class="n">vt</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">plot_start</span><span class="p">,</span> <span class="o">*</span><span class="n">aggs_and_cols</span><span class="p">):</span>
+        <span class="sd">"""Aggregate along a line formed by ``xs`` and ``ys``"""</span>
+        <span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">=</span> <span class="n">bounds</span>
+        <span class="n">nrows</span> <span class="o">=</span> <span class="n">xs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nrows</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">x0</span> <span class="o">=</span> <span class="n">xs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">y0</span> <span class="o">=</span> <span class="n">ys</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">x1</span> <span class="o">=</span> <span class="n">xs</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">y1</span> <span class="o">=</span> <span class="n">ys</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+
+            <span class="c1"># If any of the coordinates are NaN, there's a discontinuity. Skip</span>
+            <span class="c1"># the entire segment.</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">y0</span><span class="p">)</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">y1</span><span class="p">):</span>
+                <span class="n">plot_start</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># Use Liang-Barsky (1992) to clip the segment to a bounding box</span>
+            <span class="k">if</span> <span class="n">outside_bounds</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span><span class="p">):</span>
+                <span class="n">plot_start</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">continue</span>
+
+            <span class="n">clipped</span> <span class="o">=</span> <span class="kc">False</span>
+
+            <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+            <span class="n">dx</span> <span class="o">=</span> <span class="n">x1</span> <span class="o">-</span> <span class="n">x0</span>
+
+            <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">accept</span> <span class="o">=</span> <span class="n">clipt</span><span class="p">(</span><span class="o">-</span><span class="n">dx</span><span class="p">,</span> <span class="n">x0</span> <span class="o">-</span> <span class="n">xmin</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">accept</span><span class="p">:</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">continue</span>
+
+            <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">accept</span> <span class="o">=</span> <span class="n">clipt</span><span class="p">(</span><span class="n">dx</span><span class="p">,</span> <span class="n">xmax</span> <span class="o">-</span> <span class="n">x0</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">accept</span><span class="p">:</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">continue</span>
+
+            <span class="n">dy</span> <span class="o">=</span> <span class="n">y1</span> <span class="o">-</span> <span class="n">y0</span>
+
+            <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">accept</span> <span class="o">=</span> <span class="n">clipt</span><span class="p">(</span><span class="o">-</span><span class="n">dy</span><span class="p">,</span> <span class="n">y0</span> <span class="o">-</span> <span class="n">ymin</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">accept</span><span class="p">:</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">continue</span>
+
+            <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">accept</span> <span class="o">=</span> <span class="n">clipt</span><span class="p">(</span><span class="n">dy</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">-</span> <span class="n">y0</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">t1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">accept</span><span class="p">:</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">continue</span>
+
+            <span class="k">if</span> <span class="n">t1</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">clipped</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">x1</span> <span class="o">=</span> <span class="n">x0</span> <span class="o">+</span> <span class="n">t1</span> <span class="o">*</span> <span class="n">dx</span>
+                <span class="n">y1</span> <span class="o">=</span> <span class="n">y0</span> <span class="o">+</span> <span class="n">t1</span> <span class="o">*</span> <span class="n">dy</span>
+
+            <span class="k">if</span> <span class="n">t0</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c1"># If x0 is clipped, we need to plot the new start</span>
+                <span class="n">clipped</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">plot_start</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">x0</span> <span class="o">=</span> <span class="n">x0</span> <span class="o">+</span> <span class="n">t0</span> <span class="o">*</span> <span class="n">dx</span>
+                <span class="n">y0</span> <span class="o">=</span> <span class="n">y0</span> <span class="o">+</span> <span class="n">t0</span> <span class="o">*</span> <span class="n">dy</span>
+
+            <span class="n">x0i</span><span class="p">,</span> <span class="n">y0i</span> <span class="o">=</span> <span class="n">map_onto_pixel</span><span class="p">(</span><span class="n">vt</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">)</span>
+            <span class="n">x1i</span><span class="p">,</span> <span class="n">y1i</span> <span class="o">=</span> <span class="n">map_onto_pixel</span><span class="p">(</span><span class="n">vt</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">)</span>
+            <span class="n">draw_line</span><span class="p">(</span><span class="n">x0i</span><span class="p">,</span> <span class="n">y0i</span><span class="p">,</span> <span class="n">x1i</span><span class="p">,</span> <span class="n">y1i</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">plot_start</span><span class="p">,</span> <span class="n">clipped</span><span class="p">,</span> <span class="o">*</span><span class="n">aggs_and_cols</span><span class="p">)</span>
+            <span class="n">plot_start</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">extend_line</span>
+</pre>
+    </div>
+   </div>
+  </div>
+  <!-- END MAIN BODY OF DOCS ––––––––––––– -->
+  <footer class="footer">
+   <div class="footer-links">
+    <ul>
+     <li>
+      <span class="footer-title">
+       Links
+      </span>
+     </li>
+     <li>
+      <a href="../../getting_started/index.html">
+       Getting Started
+      </a>
+     </li>
+     <li>
+      <a href="../../user_guide/index.html">
+       User Guide
+      </a>
+     </li>
+     <li>
+      <a href="../../topics/index.html">
+       Topics
+      </a>
+     </li>
+     <li>
+      <a href="../../performance.html">
+       Performance
+      </a>
+     </li>
+     <li>
+      <a href="../../api.html">
+       API
+      </a>
+     </li>
+     <li>
+      <a href="../../FAQ.html">
+       FAQ
+      </a>
+     </li>
+    </ul>
+    <ul>
+     <li>
+      <span class="footer-title">
+       Join Us
+      </span>
+     </li>
+     <li>
+      <a href="//twitter.com/datashader/.html">
+       Twitter
+      </a>
+     </li>
+     <li>
+      <a href="//github.com/bokeh/datashader/.html">
+       Github
+      </a>
+     </li>
+    </ul>
+    <ul class="copyright">
+     <li>
+      2016, Continuum Analytics
+     </li>
+    </ul>
+   </div>
+  </footer>
+  <!-- Google Analytics -->
+  <script>
+   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-61554933-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- MathJax Config -->
+  <script type="text/x-mathjax-config">
+   MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+  </script>
+  <!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+ </body>
+</html>

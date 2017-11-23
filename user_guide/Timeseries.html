@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8"/>
+  <title>
+   Timeseries — datashader
+  </title>
+  <meta content="Stop plotting your data - annotate your data and let it visualize itself." name="description"/>
+  <meta content="datashader contributors" name="author"/>
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js">
+  </script>
+  <script>
+   WebFont.load({
+      google: {
+        families: ['Source Sans Pro']
+      }
+    });
+  </script>
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="../_static/custom.css" rel="stylesheet"/>
+  <link href="../_static/css/main.css" rel="stylesheet"/>
+  <!-- Scripts
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">
+  </script>
+  <script async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript">
+  </script>
+  <script src="../_static/js/main.js">
+  </script>
+  <script src="../_static/custom.js">
+  </script>
+  <script src="../_static/require.js">
+  </script>
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="../_static/images/favicon.ico" rel="icon" type="image/png"/>
+  <!-- Canonical
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="/user_guide/Timeseries.html" rel="canonical"/>
+ </head>
+ <body class="">
+  <header class="navigation">
+   <div class="wrapper">
+    <a class="logo" href="/">
+     <img alt="Logo" src="../_static/images/logo.png"/>
+    </a>
+    <a class="navigation-menu logo-text" href="/">
+     datashader
+    </a>
+    <a class="navigation-menu-button" href="javascript:void(0)" id="js-mobile-menu">
+     Menu
+    </a>
+    <nav>
+     <ul class="navigation-menu show" id="js-navigation-menu">
+      <li class="nav-link">
+       <a href="../getting_started/index.html">
+        Getting Started
+       </a>
+      </li>
+      <li class="nav-link">
+       <a href="index.html">
+        User Guide
+       </a>
+      </li>
+      <li class="nav-link">
+       <a href="../topics/index.html">
+        Topics
+       </a>
+      </li>
+      <li class="nav-link">
+       <a href="../performance.html">
+        Performance
+       </a>
+      </li>
+      <li class="nav-link">
+       <a href="../api.html">
+        API
+       </a>
+      </li>
+      <li class="nav-link">
+       <a href="../FAQ.html">
+        FAQ
+       </a>
+      </li>
+      <li class="nav-link">
+       <div style="display:inline-block;vertical-align: middle;">
+        <div class="search-bar">
+         <form action="../search.html" method="get" role="search">
+          <input name="q" placeholder="Search" type="search"/>
+          <button type="submit">
+           <img alt="Search Icon" src="https://raw.githubusercontent.com/thoughtbot/refills/master/source/images/search-icon-black.png"/>
+          </button>
+         </form>
+        </div>
+       </div>
+      </li>
+     </ul>
+    </nav>
+   </div>
+  </header>
+  <!-- MAIN BODY OF DOCS –––––––––––––––––– -->
+  <div class="docs section">
+   <div id="hacketyhackhack">
+    <!-- style="width:20%;margin-right: 100px;"> -->
+    <!--style="display: none;"> style="display:none;"> -->
+    <div class="toc" style="width:15%; margin-right:20px;">
+     <ul class="current">
+      <li class="toctree-l1">
+       <a class="reference internal" href="../getting_started/index.html">
+        Getting Started
+       </a>
+      </li>
+      <li class="toctree-l1 current">
+       <a class="reference internal" href="index.html">
+        User Guide
+       </a>
+       <ul class="current">
+        <li class="toctree-l2">
+         <a class="reference internal" href="Plotting_pitfalls.html">
+          Plotting pitfalls
+         </a>
+        </li>
+        <li class="toctree-l2 current">
+         <a class="current reference internal" href="#">
+          Timeseries
+         </a>
+        </li>
+        <li class="toctree-l2">
+         <a class="reference internal" href="Trajectories.html">
+          Trajectories
+         </a>
+        </li>
+        <li class="toctree-l2">
+         <a class="reference internal" href="Networks.html">
+          Networks
+         </a>
+        </li>
+        <li class="toctree-l2">
+         <a class="reference internal" href="Extending.html">
+          Extending
+         </a>
+        </li>
+       </ul>
+      </li>
+      <li class="toctree-l1">
+       <a class="reference internal" href="../topics/index.html">
+        Topics
+       </a>
+      </li>
+      <li class="toctree-l1">
+       <a class="reference internal" href="../performance.html">
+        Performance
+       </a>
+      </li>
+      <li class="toctree-l1">
+       <a class="reference internal" href="../api.html">
+        API
+       </a>
+      </li>
+      <li class="toctree-l1">
+       <a class="reference internal" href="../FAQ.html">
+        FAQ
+       </a>
+      </li>
+     </ul>
+    </div>
+   </div>
+   <div class="content">
+    <!-- style="max-width:80%;margin-left:auto;margin-right: auto;">-->
+    <div class="section" id="timeseries">
+     <h1>
+      Timeseries
+      <a class="headerlink" href="#timeseries" title="Permalink to this headline">
+       ¶
+      </a>
+     </h1>
+     Notebook conversion failed with the following traceback: 
+An error occurred while executing the following cell:
+------------------
+from datashader.bokeh_ext import InteractiveImage
+def create_image(x_range, y_range, w, h):
+    cvs = ds.Canvas(x_range=x_range, y_range=y_range,
+                    plot_height=h, plot_width=w)
+    aggs = OrderedDict((c,cvs.line(df, 'Time', c, agg=ds.count())) for c in cols)
+    renamed = [aggs[key].rename({key: 'value'}) for key in aggs]
+    merged = xr.concat(renamed, 'cols')
+    total = merged.sum(dim='cols')
+    img = tf.shade(total, how='linear')
+    return img
+    
+p = base_plot()
+InteractiveImage(p, create_image)
+------------------
+
+[0;31m--------------------------------------------------------------------[0m
+[0;31mValueError[0m                         Traceback (most recent call last)
+[0;32m
+     <ipython-input-13-b5522a864409>
+      [0m in [0;36m
+      <module>
+       [0;34m()[0m
+[1;32m     10[0m     [0;32mreturn[0m [0mimg[0m[0;34m[0m[0m
+[1;32m     11[0m [0;34m[0m[0m
+[0;32m---&gt; 12[0;31m [0mp[0m [0;34m=[0m [0mbase_plot[0m[0;34m([0m[0;34m)[0m[0;34m[0m[0m
+[0m[1;32m     13[0m [0mInteractiveImage[0m[0;34m([0m[0mp[0m[0;34m,[0m [0mcreate_image[0m[0;34m)[0m[0;34m[0m[0m
+
+[0;32m
+       <ipython-input-12-b92f912bdd42>
+        [0m in [0;36mbase_plot[0;34m(tools)[0m
+[1;32m     14[0m         [0mx_range[0m[0;34m=[0m[0mx_range[0m[0;34m,[0m [0my_range[0m[0;34m=[0m[0my_range[0m[0;34m,[0m [0moutline_line_color[0m[0;34m=[0m[0;32mNone[0m[0;34m,[0m[0;34m[0m[0m
+[1;32m     15[0m         [0mmin_border[0m[0;34m=[0m[0;36m0[0m[0;34m,[0m [0mmin_border_left[0m[0;34m=[0m[0;36m0[0m[0;34m,[0m [0mmin_border_right[0m[0;34m=[0m[0;36m0[0m[0;34m,[0m[0;34m[0m[0m
+[0;32m---&gt; 16[0;31m         min_border_top=0, min_border_bottom=0, responsive=True)   
+[0m[1;32m     17[0m     [0mp[0m[0;34m.[0m[0mxgrid[0m[0;34m.[0m[0mgrid_line_color[0m [0;34m=[0m [0;32mNone[0m[0;34m[0m[0m
+[1;32m     18[0m     [0mp[0m[0;34m.[0m[0mygrid[0m[0;34m.[0m[0mgrid_line_color[0m [0;34m=[0m [0;32mNone[0m[0;34m[0m[0m
+
+[0;32m~/Eunectes/mc3/envs/dsdev/lib/python3.6/site-packages/bokeh/plotting/figure.py[0m in [0;36mfigure[0;34m(**kwargs)[0m
+[1;32m    775[0m     '''
+[1;32m    776[0m [0;34m[0m[0m
+[0;32m--&gt; 777[0;31m     [0;32mreturn[0m [0mFigure[0m[0;34m([0m[0;34m**[0m[0mkwargs[0m[0;34m)[0m[0;34m[0m[0m
+[0m[1;32m    778[0m [0;34m[0m[0m
+[1;32m    779[0m [0;34m[0m[0m
+
+[0;32m~/Eunectes/mc3/envs/dsdev/lib/python3.6/site-packages/bokeh/plotting/figure.py[0m in [0;36m__init__[0;34m(self, *arg, **kw)[0m
+[1;32m    147[0m         [0m_process_axis_and_grid[0m[0;34m([0m[0mself[0m[0;34m,[0m [0mopts[0m[0;34m.[0m[0my_axis_type[0m[0;34m,[0m [0mopts[0m[0;34m.[0m[0my_axis_location[0m[0;34m,[0m [0mopts[0m[0;34m.[0m[0my_minor_ticks[0m[0;34m,[0m [0mopts[0m[0;34m.[0m[0my_axis_label[0m[0;34m,[0m [0mself[0m[0;34m.[0m[0my_range[0m[0;34m,[0m [0;36m1[0m[0;34m)[0m[0;34m[0m[0m
+[1;32m    148[0m [0;34m[0m[0m
+[0;32m--&gt; 149[0;31m         [0mtool_objs[0m[0;34m,[0m [0mtool_map[0m [0;34m=[0m [0m_process_tools_arg[0m[0;34m([0m[0mself[0m[0;34m,[0m [0mopts[0m[0;34m.[0m[0mtools[0m[0;34m)[0m[0;34m[0m[0m
+[0m[1;32m    150[0m         [0mself[0m[0;34m.[0m[0madd_tools[0m[0;34m([0m[0;34m*[0m[0mtool_objs[0m[0;34m)[0m[0;34m[0m[0m
+[1;32m    151[0m         [0m_process_active_tools[0m[0;34m([0m[0mself[0m[0;34m.[0m[0mtoolbar[0m[0;34m,[0m [0mtool_map[0m[0;34m,[0m [0mopts[0m[0;34m.[0m[0mactive_drag[0m[0;34m,[0m [0mopts[0m[0;34m.[0m[0mactive_inspect[0m[0;34m,[0m [0mopts[0m[0;34m.[0m[0mactive_scroll[0m[0;34m,[0m [0mopts[0m[0;34m.[0m[0mactive_tap[0m[0;34m)[0m[0;34m[0m[0m
+
+[0;32m~/Eunectes/mc3/envs/dsdev/lib/python3.6/site-packages/bokeh/plotting/helpers.py[0m in [0;36m_process_tools_arg[0;34m(plot, tools)[0m
+[1;32m    523[0m             [0;32mcontinue[0m[0;34m[0m[0m
+[1;32m    524[0m [0;34m[0m[0m
+[0;32m--&gt; 525[0;31m         [0mtool_obj[0m [0;34m=[0m [0m_tool_from_string[0m[0;34m([0m[0mtool[0m[0;34m)[0m[0;34m[0m[0m
+[0m[1;32m    526[0m         [0mtool_objs[0m[0;34m.[0m[0mappend[0m[0;34m([0m[0mtool_obj[0m[0;34m)[0m[0;34m[0m[0m
+[1;32m    527[0m         [0mtool_map[0m[0;34m[[0m[0mtool[0m[0;34m][0m [0;34m=[0m [0mtool_obj[0m[0;34m[0m[0m
+
+[0;32m~/Eunectes/mc3/envs/dsdev/lib/python3.6/site-packages/bokeh/plotting/helpers.py[0m in [0;36m_tool_from_string[0;34m(name)[0m
+[1;32m    460[0m             [0mmatches[0m[0;34m,[0m [0mtext[0m [0;34m=[0m [0mknown_tools[0m[0;34m,[0m [0;34m"possible"[0m[0;34m[0m[0m
+[1;32m    461[0m [0;34m[0m[0m
+[0;32m--&gt; 462[0;31m         [0;32mraise[0m [0mValueError[0m[0;34m([0m[0;34m"unexpected tool name '%s', %s tools are %s"[0m [0;34m%[0m [0;34m([0m[0mname[0m[0;34m,[0m [0mtext[0m[0;34m,[0m [0mnice_join[0m[0;34m([0m[0mmatches[0m[0;34m)[0m[0;34m)[0m[0;34m)[0m[0;34m[0m[0m
+[0m[1;32m    463[0m [0;34m[0m[0m
+[1;32m    464[0m [0;34m[0m[0m
+
+[0;31mValueError[0m: unexpected tool name 'resize', similar tools are reset
+ValueError: unexpected tool name 'resize', similar tools are reset
+        <hr class="docutils"/>
+        <p>
+         <a class="reference external" href="https://raw.githubusercontent.com/ioam/datashader/master/examples/user_guide/3-Timeseries.ipynb">
+          Right click to download this notebook from GitHub.
+         </a>
+        </p>
+       </ipython-input-12-b92f912bdd42>
+      </module>
+     </ipython-input-13-b5522a864409>
+    </div>
+   </div>
+  </div>
+  <!-- END MAIN BODY OF DOCS ––––––––––––– -->
+  <footer class="footer">
+   <div class="footer-links">
+    <ul>
+     <li>
+      <span class="footer-title">
+       Links
+      </span>
+     </li>
+     <li>
+      <a href="../getting_started/index.html">
+       Getting Started
+      </a>
+     </li>
+     <li>
+      <a href="index.html">
+       User Guide
+      </a>
+     </li>
+     <li>
+      <a href="../topics/index.html">
+       Topics
+      </a>
+     </li>
+     <li>
+      <a href="../performance.html">
+       Performance
+      </a>
+     </li>
+     <li>
+      <a href="../api.html">
+       API
+      </a>
+     </li>
+     <li>
+      <a href="../FAQ.html">
+       FAQ
+      </a>
+     </li>
+    </ul>
+    <ul>
+     <li>
+      <span class="footer-title">
+       Join Us
+      </span>
+     </li>
+     <li>
+      <a href="//twitter.com/datashader/.html">
+       Twitter
+      </a>
+     </li>
+     <li>
+      <a href="//github.com/bokeh/datashader/.html">
+       Github
+      </a>
+     </li>
+    </ul>
+    <ul class="copyright">
+     <li>
+      2016, Continuum Analytics
+     </li>
+    </ul>
+   </div>
+  </footer>
+  <!-- Google Analytics -->
+  <script>
+   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-61554933-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- MathJax Config -->
+  <script type="text/x-mathjax-config">
+   MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+  </script>
+  <!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+ </body>
+</html>

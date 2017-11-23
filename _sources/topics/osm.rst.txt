@@ -1,0 +1,10 @@
+osm
+___
+
+.. notebook:: datashader ../../examples/topics/osm.ipynb
+    :offset: 1
+
+
+-------
+
+`Right click to download this notebook from GitHub. <https://raw.githubusercontent.com/ioam/datashader/master/examples/topics/osm.ipynb>`_

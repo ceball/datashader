@@ -1,6 +1,0 @@
-[run]
-omit =
-    */test_*.py
-    datashader/compatibility.py
-source =
-    datashader

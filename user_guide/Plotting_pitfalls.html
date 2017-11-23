@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8"/>
+  <title>
+   Plotting pitfalls — datashader
+  </title>
+  <meta content="Stop plotting your data - annotate your data and let it visualize itself." name="description"/>
+  <meta content="datashader contributors" name="author"/>
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js">
+  </script>
+  <script>
+   WebFont.load({
+      google: {
+        families: ['Source Sans Pro']
+      }
+    });
+  </script>
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="../_static/custom.css" rel="stylesheet"/>
+  <link href="../_static/css/main.css" rel="stylesheet"/>
+  <!-- Scripts
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">
+  </script>
+  <script async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript">
+  </script>
+  <script src="../_static/js/main.js">
+  </script>
+  <script src="../_static/custom.js">
+  </script>
+  <script src="../_static/require.js">
+  </script>
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="../_static/images/favicon.ico" rel="icon" type="image/png"/>
+  <!-- Canonical
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="/user_guide/Plotting_pitfalls.html" rel="canonical"/>
+ </head>
+ <body class="">
+  <header class="navigation">
+   <div class="wrapper">
+    <a class="logo" href="/">
+     <img alt="Logo" src="../_static/images/logo.png"/>
+    </a>
+    <a class="navigation-menu logo-text" href="/">
+     datashader
+    </a>
+    <a class="navigation-menu-button" href="javascript:void(0)" id="js-mobile-menu">
+     Menu
+    </a>
+    <nav>
+     <ul class="navigation-menu show" id="js-navigation-menu">
+      <li class="nav-link">
+       <a href="../getting_started/index.html">
+        Getting Started
+       </a>
+      </li>
+      <li class="nav-link">
+       <a href="index.html">
+        User Guide
+       </a>
+      </li>
+      <li class="nav-link">
+       <a href="../topics/index.html">
+        Topics
+       </a>
+      </li>
+      <li class="nav-link">
+       <a href="../performance.html">
+        Performance
+       </a>
+      </li>
+      <li class="nav-link">
+       <a href="../api.html">
+        API
+       </a>
+      </li>
+      <li class="nav-link">
+       <a href="../FAQ.html">
+        FAQ
+       </a>
+      </li>
+      <li class="nav-link">
+       <div style="display:inline-block;vertical-align: middle;">
+        <div class="search-bar">
+         <form action="../search.html" method="get" role="search">
+          <input name="q" placeholder="Search" type="search"/>
+          <button type="submit">
+           <img alt="Search Icon" src="https://raw.githubusercontent.com/thoughtbot/refills/master/source/images/search-icon-black.png"/>
+          </button>
+         </form>
+        </div>
+       </div>
+      </li>
+     </ul>
+    </nav>
+   </div>
+  </header>
+  <!-- MAIN BODY OF DOCS –––––––––––––––––– -->
+  <div class="docs section">
+   <div id="hacketyhackhack">
+    <!-- style="width:20%;margin-right: 100px;"> -->
+    <!--style="display: none;"> style="display:none;"> -->
+    <div class="toc" style="width:15%; margin-right:20px;">
+     <ul class="current">
+      <li class="toctree-l1">
+       <a class="reference internal" href="../getting_started/index.html">
+        Getting Started
+       </a>
+      </li>
+      <li class="toctree-l1 current">
+       <a class="reference internal" href="index.html">
+        User Guide
+       </a>
+       <ul class="current">
+        <li class="toctree-l2 current">
+         <a class="current reference internal" href="#">
+          Plotting pitfalls
+         </a>
+        </li>
+        <li class="toctree-l2">
+         <a class="reference internal" href="Timeseries.html">
+          Timeseries
+         </a>
+        </li>
+        <li class="toctree-l2">
+         <a class="reference internal" href="Trajectories.html">
+          Trajectories
+         </a>
+        </li>
+        <li class="toctree-l2">
+         <a class="reference internal" href="Networks.html">
+          Networks
+         </a>
+        </li>
+        <li class="toctree-l2">
+         <a class="reference internal" href="Extending.html">
+          Extending
+         </a>
+        </li>
+       </ul>
+      </li>
+      <li class="toctree-l1">
+       <a class="reference internal" href="../topics/index.html">
+        Topics
+       </a>
+      </li>
+      <li class="toctree-l1">
+       <a class="reference internal" href="../performance.html">
+        Performance
+       </a>
+      </li>
+      <li class="toctree-l1">
+       <a class="reference internal" href="../api.html">
+        API
+       </a>
+      </li>
+      <li class="toctree-l1">
+       <a class="reference internal" href="../FAQ.html">
+        FAQ
+       </a>
+      </li>
+     </ul>
+    </div>
+   </div>
+   <div class="content">
+    <!-- style="max-width:80%;margin-left:auto;margin-right: auto;">-->
+    <div class="section" id="plotting-pitfalls">
+     <h1>
+      Plotting pitfalls
+      <a class="headerlink" href="#plotting-pitfalls" title="Permalink to this headline">
+       ¶
+      </a>
+     </h1>
+     Notebook conversion failed with the following traceback: 
+An error occurred while executing the following cell:
+------------------
+hmap = hv.HoloMap({0:blues,0.000001:reds,1:blues,2:reds}, key_dimensions=['level'])
+hv.Scatter3D(hmap.table(), kdims=['x','y','level'], vdims=['c'])
+------------------
+
+[0;31m--------------------------------------------------------------------[0m
+[0;31mDataError[0m                          Traceback (most recent call last)
+[0;32m
+     <ipython-input-3-d3643992729e>
+      [0m in [0;36m
+      <module>
+       [0;34m()[0m
+[1;32m      1[0m [0mhmap[0m [0;34m=[0m [0mhv[0m[0;34m.[0m[0mHoloMap[0m[0;34m([0m[0;34m{[0m[0;36m0[0m[0;34m:[0m[0mblues[0m[0;34m,[0m[0;36m0.000001[0m[0;34m:[0m[0mreds[0m[0;34m,[0m[0;36m1[0m[0;34m:[0m[0mblues[0m[0;34m,[0m[0;36m2[0m[0;34m:[0m[0mreds[0m[0;34m}[0m[0;34m,[0m [0mkey_dimensions[0m[0;34m=[0m[0;34m[[0m[0;34m'level'[0m[0;34m][0m[0;34m)[0m[0;34m[0m[0m
+[0;32m----&gt; 2[0;31m [0mhv[0m[0;34m.[0m[0mScatter3D[0m[0;34m([0m[0mhmap[0m[0;34m.[0m[0mtable[0m[0;34m([0m[0;34m)[0m[0;34m,[0m [0mkdims[0m[0;34m=[0m[0;34m[[0m[0;34m'x'[0m[0;34m,[0m[0;34m'y'[0m[0;34m,[0m[0;34m'level'[0m[0;34m][0m[0;34m,[0m [0mvdims[0m[0;34m=[0m[0;34m[[0m[0;34m'c'[0m[0;34m][0m[0;34m)[0m[0;34m[0m[0m
+[0m
+[0;32m~/Eunectes/mc3/envs/dsdev/lib/python3.6/site-packages/holoviews/core/data/__init__.py[0m in [0;36m__init__[0;34m(self, data, kdims, vdims, **kwargs)[0m
+[1;32m    192[0m         [0mvalidate_vdims[0m [0;34m=[0m [0mkwargs[0m[0;34m.[0m[0mpop[0m[0;34m([0m[0;34m'_validate_vdims'[0m[0;34m,[0m [0;32mTrue[0m[0;34m)[0m[0;34m[0m[0m
+[1;32m    193[0m         [0msuper[0m[0;34m([0m[0mDataset[0m[0;34m,[0m [0mself[0m[0;34m)[0m[0;34m.[0m[0m__init__[0m[0;34m([0m[0mdata[0m[0;34m,[0m [0;34m**[0m[0mdict[0m[0;34m([0m[0mkwargs[0m[0;34m,[0m [0;34m**[0m[0mdict[0m[0;34m([0m[0mdims[0m[0;34m,[0m [0;34m**[0m[0mextra_kws[0m[0;34m)[0m[0;34m)[0m[0;34m)[0m[0;34m[0m[0m
+[0;32m--&gt; 194[0;31m         [0mself[0m[0;34m.[0m[0minterface[0m[0;34m.[0m[0mvalidate[0m[0;34m([0m[0mself[0m[0;34m,[0m [0mvalidate_vdims[0m[0;34m)[0m[0;34m[0m[0m
+[0m[1;32m    195[0m [0;34m[0m[0m
+[1;32m    196[0m         [0mself[0m[0;34m.[0m[0mredim[0m [0;34m=[0m [0mredim[0m[0;34m([0m[0mself[0m[0;34m,[0m [0mmode[0m[0;34m=[0m[0;34m'dataset'[0m[0;34m)[0m[0;34m[0m[0m
+
+[0;32m~/Eunectes/mc3/envs/dsdev/lib/python3.6/site-packages/holoviews/core/data/pandas.py[0m in [0;36mvalidate[0;34m(cls, dataset, vdims)[0m
+[1;32m    115[0m             raise DataError("Supplied data does not contain specified "
+[1;32m    116[0m                             [0;34m"dimensions, the following dimensions were "[0m[0;34m[0m[0m
+[0;32m--&gt; 117[0;31m                             "not found: %s" % repr(not_found), cls)
+[0m[1;32m    118[0m [0;34m[0m[0m
+[1;32m    119[0m [0;34m[0m[0m
+
+[0;31mDataError[0m: Supplied data does not contain specified dimensions, the following dimensions were not found: ['level']
+
+PandasInterface expects tabular data, for more information on supported datatypes see http://holoviews.org/user_guide/Tabular_Datasets.html
+DataError: Supplied data does not contain specified dimensions, the following dimensions were not found: ['level']
+
+PandasInterface expects tabular data, for more information on supported datatypes see http://holoviews.org/user_guide/Tabular_Datasets.html
+       <hr class="docutils"/>
+       <p>
+        <a class="reference external" href="https://raw.githubusercontent.com/ioam/datashader/master/examples/user_guide/1-Plotting_pitfalls.ipynb">
+         Right click to download this notebook from GitHub.
+        </a>
+       </p>
+      </module>
+     </ipython-input-3-d3643992729e>
+    </div>
+   </div>
+  </div>
+  <!-- END MAIN BODY OF DOCS ––––––––––––– -->
+  <footer class="footer">
+   <div class="footer-links">
+    <ul>
+     <li>
+      <span class="footer-title">
+       Links
+      </span>
+     </li>
+     <li>
+      <a href="../getting_started/index.html">
+       Getting Started
+      </a>
+     </li>
+     <li>
+      <a href="index.html">
+       User Guide
+      </a>
+     </li>
+     <li>
+      <a href="../topics/index.html">
+       Topics
+      </a>
+     </li>
+     <li>
+      <a href="../performance.html">
+       Performance
+      </a>
+     </li>
+     <li>
+      <a href="../api.html">
+       API
+      </a>
+     </li>
+     <li>
+      <a href="../FAQ.html">
+       FAQ
+      </a>
+     </li>
+    </ul>
+    <ul>
+     <li>
+      <span class="footer-title">
+       Join Us
+      </span>
+     </li>
+     <li>
+      <a href="//twitter.com/datashader/.html">
+       Twitter
+      </a>
+     </li>
+     <li>
+      <a href="//github.com/bokeh/datashader/.html">
+       Github
+      </a>
+     </li>
+    </ul>
+    <ul class="copyright">
+     <li>
+      2016, Continuum Analytics
+     </li>
+    </ul>
+   </div>
+  </footer>
+  <!-- Google Analytics -->
+  <script>
+   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-61554933-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- MathJax Config -->
+  <script type="text/x-mathjax-config">
+   MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+  </script>
+  <!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+ </body>
+</html>

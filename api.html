@@ -1,0 +1,2463 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8"/>
+  <title>
+   API — datashader
+  </title>
+  <meta content="Stop plotting your data - annotate your data and let it visualize itself." name="description"/>
+  <meta content="datashader contributors" name="author"/>
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js">
+  </script>
+  <script>
+   WebFont.load({
+      google: {
+        families: ['Source Sans Pro']
+      }
+    });
+  </script>
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="_static/custom.css" rel="stylesheet"/>
+  <link href="_static/css/main.css" rel="stylesheet"/>
+  <!-- Scripts
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">
+  </script>
+  <script async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript">
+  </script>
+  <script src="_static/js/main.js">
+  </script>
+  <script src="_static/custom.js">
+  </script>
+  <script src="_static/require.js">
+  </script>
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="_static/images/favicon.ico" rel="icon" type="image/png"/>
+  <!-- Canonical
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="/api.html" rel="canonical"/>
+ </head>
+ <body class="">
+  <header class="navigation">
+   <div class="wrapper">
+    <a class="logo" href="/">
+     <img alt="Logo" src="_static/images/logo.png"/>
+    </a>
+    <a class="navigation-menu logo-text" href="/">
+     datashader
+    </a>
+    <a class="navigation-menu-button" href="javascript:void(0)" id="js-mobile-menu">
+     Menu
+    </a>
+    <nav>
+     <ul class="navigation-menu show" id="js-navigation-menu">
+      <li class="nav-link">
+       <a href="getting_started/index.html">
+        Getting Started
+       </a>
+      </li>
+      <li class="nav-link">
+       <a href="user_guide/index.html">
+        User Guide
+       </a>
+      </li>
+      <li class="nav-link">
+       <a href="topics/index.html">
+        Topics
+       </a>
+      </li>
+      <li class="nav-link">
+       <a href="performance.html">
+        Performance
+       </a>
+      </li>
+      <li class="nav-link">
+       <a href="#">
+        API
+       </a>
+      </li>
+      <li class="nav-link">
+       <a href="FAQ.html">
+        FAQ
+       </a>
+      </li>
+      <li class="nav-link">
+       <div style="display:inline-block;vertical-align: middle;">
+        <div class="search-bar">
+         <form action="search.html" method="get" role="search">
+          <input name="q" placeholder="Search" type="search"/>
+          <button type="submit">
+           <img alt="Search Icon" src="https://raw.githubusercontent.com/thoughtbot/refills/master/source/images/search-icon-black.png"/>
+          </button>
+         </form>
+        </div>
+       </div>
+      </li>
+     </ul>
+    </nav>
+   </div>
+  </header>
+  <!-- MAIN BODY OF DOCS –––––––––––––––––– -->
+  <div class="docs section">
+   <div id="hacketyhackhack">
+    <!-- style="width:20%;margin-right: 100px;"> -->
+    <!--style="display: none;"> style="display:none;"> -->
+    <div class="toc" style="width:15%; margin-right:20px;">
+     <ul class="current">
+      <li class="toctree-l1">
+       <a class="reference internal" href="getting_started/index.html">
+        Getting Started
+       </a>
+      </li>
+      <li class="toctree-l1">
+       <a class="reference internal" href="user_guide/index.html">
+        User Guide
+       </a>
+      </li>
+      <li class="toctree-l1">
+       <a class="reference internal" href="topics/index.html">
+        Topics
+       </a>
+      </li>
+      <li class="toctree-l1">
+       <a class="reference internal" href="performance.html">
+        Performance
+       </a>
+      </li>
+      <li class="toctree-l1 current">
+       <a class="current reference internal" href="#">
+        API
+       </a>
+       <ul>
+        <li class="toctree-l2">
+         <a class="reference internal" href="#entry-points">
+          Entry Points
+         </a>
+        </li>
+        <li class="toctree-l2">
+         <a class="reference internal" href="#edge-bundling">
+          Edge Bundling
+         </a>
+        </li>
+        <li class="toctree-l2">
+         <a class="reference internal" href="#glyphs">
+          Glyphs
+         </a>
+        </li>
+        <li class="toctree-l2">
+         <a class="reference internal" href="#reductions">
+          Reductions
+         </a>
+        </li>
+        <li class="toctree-l2">
+         <a class="reference internal" href="#transfer-functions">
+          Transfer Functions
+         </a>
+        </li>
+        <li class="toctree-l2">
+         <a class="reference internal" href="#definitions">
+          Definitions
+         </a>
+        </li>
+       </ul>
+      </li>
+      <li class="toctree-l1">
+       <a class="reference internal" href="FAQ.html">
+        FAQ
+       </a>
+      </li>
+     </ul>
+    </div>
+   </div>
+   <div class="content">
+    <!-- style="max-width:80%;margin-left:auto;margin-right: auto;">-->
+    <div class="section" id="api">
+     <h1>
+      API
+      <a class="headerlink" href="#api" title="Permalink to this headline">
+       ¶
+      </a>
+     </h1>
+     <div class="section" id="entry-points">
+      <h2>
+       Entry Points
+       <a class="headerlink" href="#entry-points" title="Permalink to this headline">
+        ¶
+       </a>
+      </h2>
+      <p>
+       <strong>
+        Canvas
+       </strong>
+      </p>
+      <p>
+       <strong>
+        Pipeline
+       </strong>
+      </p>
+     </div>
+     <div class="section" id="edge-bundling">
+      <h2>
+       Edge Bundling
+       <a class="headerlink" href="#edge-bundling" title="Permalink to this headline">
+        ¶
+       </a>
+      </h2>
+     </div>
+     <div class="section" id="glyphs">
+      <h2>
+       Glyphs
+       <a class="headerlink" href="#glyphs" title="Permalink to this headline">
+        ¶
+       </a>
+      </h2>
+      <p>
+       <strong>
+        Point
+       </strong>
+      </p>
+      <p>
+       <strong>
+        Line
+       </strong>
+      </p>
+     </div>
+     <div class="section" id="reductions">
+      <h2>
+       Reductions
+       <a class="headerlink" href="#reductions" title="Permalink to this headline">
+        ¶
+       </a>
+      </h2>
+     </div>
+     <div class="section" id="transfer-functions">
+      <h2>
+       Transfer Functions
+       <a class="headerlink" href="#transfer-functions" title="Permalink to this headline">
+        ¶
+       </a>
+      </h2>
+      <p>
+       <strong>
+        Image
+       </strong>
+      </p>
+      <p>
+       <strong>
+        Other
+       </strong>
+      </p>
+     </div>
+     <div class="section" id="definitions">
+      <h2>
+       Definitions
+       <a class="headerlink" href="#definitions" title="Permalink to this headline">
+        ¶
+       </a>
+      </h2>
+      <dl class="class">
+       <dt id="datashader.Canvas">
+        <em class="property">
+         class
+        </em>
+        <code class="descclassname">
+         datashader.
+        </code>
+        <code class="descname">
+         Canvas
+        </code>
+        <span class="sig-paren">
+         (
+        </span>
+        <em>
+         plot_width=600
+        </em>
+        ,
+        <em>
+         plot_height=600
+        </em>
+        ,
+        <em>
+         x_range=None
+        </em>
+        ,
+        <em>
+         y_range=None
+        </em>
+        ,
+        <em>
+         x_axis_type='linear'
+        </em>
+        ,
+        <em>
+         y_axis_type='linear'
+        </em>
+        <span class="sig-paren">
+         )
+        </span>
+        <a class="reference internal" href="_modules/datashader/core.html#Canvas">
+         <span class="viewcode-link">
+          [source]
+         </span>
+        </a>
+        <a class="headerlink" href="#datashader.Canvas" title="Permalink to this definition">
+         ¶
+        </a>
+       </dt>
+       <dd>
+        <p>
+         An abstract canvas representing the space in which to bin.
+        </p>
+        <dl class="docutils">
+         <dt>
+          plot_width, plot_height
+          <span class="classifier-delimiter">
+           :
+          </span>
+          <span class="classifier">
+           int, optional
+          </span>
+         </dt>
+         <dd>
+          Width and height of the output aggregate in pixels.
+         </dd>
+         <dt>
+          x_range, y_range
+          <span class="classifier-delimiter">
+           :
+          </span>
+          <span class="classifier">
+           tuple, optional
+          </span>
+         </dt>
+         <dd>
+          A tuple representing the bounds inclusive space
+          <code class="docutils literal">
+           <span class="pre">
+            [min,
+           </span>
+           <span class="pre">
+            max]
+           </span>
+          </code>
+          along
+the axis.
+         </dd>
+         <dt>
+          x_axis_type, y_axis_type
+          <span class="classifier-delimiter">
+           :
+          </span>
+          <span class="classifier">
+           str, optional
+          </span>
+         </dt>
+         <dd>
+          The type of the axis. Valid options are
+          <code class="docutils literal">
+           <span class="pre">
+            'linear'
+           </span>
+          </code>
+          [default], and
+          <code class="docutils literal">
+           <span class="pre">
+            'log'
+           </span>
+          </code>
+          .
+         </dd>
+        </dl>
+       </dd>
+      </dl>
+      <dl class="class">
+       <dt id="datashader.Pipeline">
+        <em class="property">
+         class
+        </em>
+        <code class="descclassname">
+         datashader.
+        </code>
+        <code class="descname">
+         Pipeline
+        </code>
+        <span class="sig-paren">
+         (
+        </span>
+        <em>
+         df
+        </em>
+        ,
+        <em>
+         glyph
+        </em>
+        ,
+        <em>
+         agg=&lt;datashader.reductions.count object&gt;
+        </em>
+        ,
+        <em>
+         transform_fn=&lt;function identity&gt;
+        </em>
+        ,
+        <em>
+         color_fn=&lt;function shade&gt;
+        </em>
+        ,
+        <em>
+         spread_fn=&lt;function dynspread&gt;
+        </em>
+        ,
+        <em>
+         width_scale=1.0
+        </em>
+        ,
+        <em>
+         height_scale=1.0
+        </em>
+        <span class="sig-paren">
+         )
+        </span>
+        <a class="reference internal" href="_modules/datashader/pipeline.html#Pipeline">
+         <span class="viewcode-link">
+          [source]
+         </span>
+        </a>
+        <a class="headerlink" href="#datashader.Pipeline" title="Permalink to this definition">
+         ¶
+        </a>
+       </dt>
+       <dd>
+        <p>
+         A datashading pipeline callback.
+        </p>
+        <p>
+         Given a declarative specification, creates a callable with the following
+signature:
+        </p>
+        <p>
+         <code class="docutils literal">
+          <span class="pre">
+           callback(x_range,
+          </span>
+          <span class="pre">
+           y_range,
+          </span>
+          <span class="pre">
+           width,
+          </span>
+          <span class="pre">
+           height)
+          </span>
+         </code>
+        </p>
+        <p>
+         where
+         <code class="docutils literal">
+          <span class="pre">
+           x_range
+          </span>
+         </code>
+         and
+         <code class="docutils literal">
+          <span class="pre">
+           y_range
+          </span>
+         </code>
+         form the bounding box on the viewport,
+and
+         <code class="docutils literal">
+          <span class="pre">
+           width
+          </span>
+         </code>
+         and
+         <code class="docutils literal">
+          <span class="pre">
+           height
+          </span>
+         </code>
+         specify the output image dimensions.
+        </p>
+        <p>
+         df : pandas.DataFrame, dask.DataFrame
+glyph : Glyph
+        </p>
+        <blockquote>
+         <div>
+          The glyph to bin by.
+         </div>
+        </blockquote>
+        <dl class="docutils">
+         <dt>
+          agg
+          <span class="classifier-delimiter">
+           :
+          </span>
+          <span class="classifier">
+           Reduction, optional
+          </span>
+         </dt>
+         <dd>
+          The reduction to compute per-pixel. Default is
+          <code class="docutils literal">
+           <span class="pre">
+            count()
+           </span>
+          </code>
+          .
+         </dd>
+         <dt>
+          transform_fn
+          <span class="classifier-delimiter">
+           :
+          </span>
+          <span class="classifier">
+           callable, optional
+          </span>
+         </dt>
+         <dd>
+          A callable that takes the computed aggregate as an argument, and
+returns another aggregate. This can be used to do preprocessing before
+passing to the
+          <code class="docutils literal">
+           <span class="pre">
+            color_fn
+           </span>
+          </code>
+          function.
+         </dd>
+         <dt>
+          color_fn
+          <span class="classifier-delimiter">
+           :
+          </span>
+          <span class="classifier">
+           callable, optional
+          </span>
+         </dt>
+         <dd>
+          A callable that takes the output of
+          <code class="docutils literal">
+           <span class="pre">
+            tranform_fn
+           </span>
+          </code>
+          , and returns an
+          <code class="docutils literal">
+           <span class="pre">
+            Image
+           </span>
+          </code>
+          object. Default is
+          <code class="docutils literal">
+           <span class="pre">
+            shade
+           </span>
+          </code>
+          .
+         </dd>
+         <dt>
+          spread_fn
+          <span class="classifier-delimiter">
+           :
+          </span>
+          <span class="classifier">
+           callable, optional
+          </span>
+         </dt>
+         <dd>
+          A callable that takes the output of
+          <code class="docutils literal">
+           <span class="pre">
+            color_fn
+           </span>
+          </code>
+          , and returns another
+          <code class="docutils literal">
+           <span class="pre">
+            Image
+           </span>
+          </code>
+          object. Default is
+          <code class="docutils literal">
+           <span class="pre">
+            dynspread
+           </span>
+          </code>
+          .
+         </dd>
+         <dt>
+          height_scale: float, optional
+         </dt>
+         <dd>
+          Factor by which to scale the provided height
+         </dd>
+         <dt>
+          width_scale: float, optional
+         </dt>
+         <dd>
+          Factor by which to scale the provided width
+         </dd>
+        </dl>
+       </dd>
+      </dl>
+      <dl class="attribute">
+       <dt id="datashader.bundling.directly_connect_edges">
+        <code class="descclassname">
+         datashader.bundling.
+        </code>
+        <code class="descname">
+         directly_connect_edges
+        </code>
+        <a class="headerlink" href="#datashader.bundling.directly_connect_edges" title="Permalink to this definition">
+         ¶
+        </a>
+       </dt>
+       <dd>
+        <p>
+         alias of
+         <code class="xref py py-class docutils literal">
+          <span class="pre">
+           connect_edges
+          </span>
+         </code>
+        </p>
+       </dd>
+      </dl>
+      <dl class="class">
+       <dt id="datashader.bundling.hammer_bundle">
+        <em class="property">
+         class
+        </em>
+        <code class="descclassname">
+         datashader.bundling.
+        </code>
+        <code class="descname">
+         hammer_bundle
+        </code>
+        <span class="sig-paren">
+         (
+        </span>
+        <em>
+         **params
+        </em>
+        <span class="sig-paren">
+         )
+        </span>
+        <a class="reference internal" href="_modules/datashader/bundling.html#hammer_bundle">
+         <span class="viewcode-link">
+          [source]
+         </span>
+        </a>
+        <a class="headerlink" href="#datashader.bundling.hammer_bundle" title="Permalink to this definition">
+         ¶
+        </a>
+       </dt>
+       <dd>
+        <p>
+         Iteratively group edges and return as paths suitable for datashading.
+        </p>
+        <p>
+         Breaks each edge into a path with multiple line segments, and
+iteratively curves this path to bundle edges into groups.
+        </p>
+        <dl class="docutils">
+         <dt>
+          <em>
+           param String
+          </em>
+          <code class="docutils literal">
+           <span class="pre">
+            x
+           </span>
+          </code>
+          (
+          <em>
+           allow_None=False, basestring=&lt;class ‘str’&gt;, constant=False, default=x, instantiate=False, pickle_default_value=True, precedence=None, readonly=False
+          </em>
+          )
+         </dt>
+         <dd>
+          Column name for each node’s x coordinate.
+         </dd>
+         <dt>
+          <em>
+           param String
+          </em>
+          <code class="docutils literal">
+           <span class="pre">
+            y
+           </span>
+          </code>
+          (
+          <em>
+           allow_None=False, basestring=&lt;class ‘str’&gt;, constant=False, default=y, instantiate=False, pickle_default_value=True, precedence=None, readonly=False
+          </em>
+          )
+         </dt>
+         <dd>
+          Column name for each node’s y coordinate.
+         </dd>
+         <dt>
+          <em>
+           param String
+          </em>
+          <code class="docutils literal">
+           <span class="pre">
+            source
+           </span>
+          </code>
+          (
+          <em>
+           allow_None=False, basestring=&lt;class ‘str’&gt;, constant=False, default=source, instantiate=False, pickle_default_value=True, precedence=None, readonly=False
+          </em>
+          )
+         </dt>
+         <dd>
+          Column name for each edge’s source.
+         </dd>
+         <dt>
+          <em>
+           param String
+          </em>
+          <code class="docutils literal">
+           <span class="pre">
+            target
+           </span>
+          </code>
+          (
+          <em>
+           allow_None=False, basestring=&lt;class ‘str’&gt;, constant=False, default=target, instantiate=False, pickle_default_value=True, precedence=None, readonly=False
+          </em>
+          )
+         </dt>
+         <dd>
+          Column name for each edge’s target.
+         </dd>
+         <dt>
+          <em>
+           param String
+          </em>
+          <code class="docutils literal">
+           <span class="pre">
+            weight
+           </span>
+          </code>
+          (
+          <em>
+           allow_None=True, basestring=&lt;class ‘str’&gt;, constant=False, default=weight, instantiate=False, pickle_default_value=True, precedence=None, readonly=False
+          </em>
+          )
+         </dt>
+         <dd>
+          Column name for each edge weight. If None, weights are ignored.
+         </dd>
+         <dt>
+          <em>
+           param Boolean
+          </em>
+          <code class="docutils literal">
+           <span class="pre">
+            include_edge_id
+           </span>
+          </code>
+          (
+          <em>
+           allow_None=False, bounds=(0, 1), constant=False, default=False, instantiate=False, pickle_default_value=True, precedence=None, readonly=False
+          </em>
+          )
+         </dt>
+         <dd>
+          Include edge IDs in bundled dataframe
+         </dd>
+         <dt>
+          <em>
+           param Number
+          </em>
+          <code class="docutils literal">
+           <span class="pre">
+            initial_bandwidth
+           </span>
+          </code>
+          (
+          <em>
+           allow_None=False, bounds=(0.0, None), constant=False, default=0.05, inclusive_bounds=(True, True), instantiate=False, pickle_default_value=True, precedence=None, readonly=False, softbounds=None, time_dependent=False, time_fn=&lt;Time Time00001&gt;
+          </em>
+          )
+         </dt>
+         <dd>
+          Initial value of the bandwidth….
+         </dd>
+         <dt>
+          <em>
+           param Number
+          </em>
+          <code class="docutils literal">
+           <span class="pre">
+            decay
+           </span>
+          </code>
+          (
+          <em>
+           allow_None=False, bounds=(0.0, 1.0), constant=False, default=0.7, inclusive_bounds=(True, True), instantiate=False, pickle_default_value=True, precedence=None, readonly=False, softbounds=None, time_dependent=False, time_fn=&lt;Time Time00001&gt;
+          </em>
+          )
+         </dt>
+         <dd>
+          Rate of decay in the bandwidth value, with 1.0 indicating no decay.
+         </dd>
+         <dt>
+          <em>
+           param Integer
+          </em>
+          <code class="docutils literal">
+           <span class="pre">
+            iterations
+           </span>
+          </code>
+          (
+          <em>
+           allow_None=False, bounds=(1, None), constant=False, default=4, inclusive_bounds=(True, True), instantiate=False, pickle_default_value=True, precedence=None, readonly=False, softbounds=None, time_dependent=False, time_fn=&lt;Time Time00001&gt;
+          </em>
+          )
+         </dt>
+         <dd>
+          Number of passes for the smoothing algorithm
+         </dd>
+         <dt>
+          <em>
+           param Integer
+          </em>
+          <code class="docutils literal">
+           <span class="pre">
+            batch_size
+           </span>
+          </code>
+          (
+          <em>
+           allow_None=False, bounds=(1, None), constant=False, default=20000, inclusive_bounds=(True, True), instantiate=False, pickle_default_value=True, precedence=None, readonly=False, softbounds=None, time_dependent=False, time_fn=&lt;Time Time00001&gt;
+          </em>
+          )
+         </dt>
+         <dd>
+          Number of edges to process together
+         </dd>
+         <dt>
+          <em>
+           param Number
+          </em>
+          <code class="docutils literal">
+           <span class="pre">
+            tension
+           </span>
+          </code>
+          (
+          <em>
+           allow_None=False, bounds=(0, None), constant=False, default=0.3, inclusive_bounds=(True, True), instantiate=False, pickle_default_value=True, precedence=-0.5, readonly=False, softbounds=None, time_dependent=False, time_fn=&lt;Time Time00001&gt;
+          </em>
+          )
+         </dt>
+         <dd>
+          Exponential smoothing factor to use when smoothing
+         </dd>
+         <dt>
+          <em>
+           param Integer
+          </em>
+          <code class="docutils literal">
+           <span class="pre">
+            accuracy
+           </span>
+          </code>
+          (
+          <em>
+           allow_None=False, bounds=(1, None), constant=False, default=500, inclusive_bounds=(True, True), instantiate=False, pickle_default_value=True, precedence=-0.5, readonly=False, softbounds=None, time_dependent=False, time_fn=&lt;Time Time00001&gt;
+          </em>
+          )
+         </dt>
+         <dd>
+          Number of entries in table for…
+         </dd>
+         <dt>
+          <em>
+           param Integer
+          </em>
+          <code class="docutils literal">
+           <span class="pre">
+            advect_iterations
+           </span>
+          </code>
+          (
+          <em>
+           allow_None=False, bounds=(0, None), constant=False, default=50, inclusive_bounds=(True, True), instantiate=False, pickle_default_value=True, precedence=-0.5, readonly=False, softbounds=None, time_dependent=False, time_fn=&lt;Time Time00001&gt;
+          </em>
+          )
+         </dt>
+         <dd>
+          Number of iterations to move edges along gradients
+         </dd>
+         <dt>
+          <em>
+           param Number
+          </em>
+          <code class="docutils literal">
+           <span class="pre">
+            min_segment_length
+           </span>
+          </code>
+          (
+          <em>
+           allow_None=False, bounds=(0, None), constant=False, default=0.008, inclusive_bounds=(True, True), instantiate=False, pickle_default_value=True, precedence=-0.5, readonly=False, softbounds=None, time_dependent=False, time_fn=&lt;Time Time00001&gt;
+          </em>
+          )
+         </dt>
+         <dd>
+          Minimum length (in data space?) for an edge segment
+         </dd>
+         <dt>
+          <em>
+           param Number
+          </em>
+          <code class="docutils literal">
+           <span class="pre">
+            max_segment_length
+           </span>
+          </code>
+          (
+          <em>
+           allow_None=False, bounds=(0, None), constant=False, default=0.016, inclusive_bounds=(True, True), instantiate=False, pickle_default_value=True, precedence=-0.5, readonly=False, softbounds=None, time_dependent=False, time_fn=&lt;Time Time00001&gt;
+          </em>
+          )
+         </dt>
+         <dd>
+          Maximum length (in data space?) for an edge segment
+         </dd>
+        </dl>
+       </dd>
+      </dl>
+      <dl class="class">
+       <dt id="datashader.glyphs.Point">
+        <em class="property">
+         class
+        </em>
+        <code class="descclassname">
+         datashader.glyphs.
+        </code>
+        <code class="descname">
+         Point
+        </code>
+        <span class="sig-paren">
+         (
+        </span>
+        <em>
+         x
+        </em>
+        ,
+        <em>
+         y
+        </em>
+        <span class="sig-paren">
+         )
+        </span>
+        <a class="reference internal" href="_modules/datashader/glyphs.html#Point">
+         <span class="viewcode-link">
+          [source]
+         </span>
+        </a>
+        <a class="headerlink" href="#datashader.glyphs.Point" title="Permalink to this definition">
+         ¶
+        </a>
+       </dt>
+       <dd>
+        <p>
+         A point, with center at
+         <code class="docutils literal">
+          <span class="pre">
+           x
+          </span>
+         </code>
+         and
+         <code class="docutils literal">
+          <span class="pre">
+           y
+          </span>
+         </code>
+         .
+        </p>
+        <p>
+         Points map each record to a single bin.
+Points falling exactly on the upper bounds are treated as a special case,
+mapping into the previous bin rather than being cropped off.
+        </p>
+        <dl class="docutils">
+         <dt>
+          x, y
+          <span class="classifier-delimiter">
+           :
+          </span>
+          <span class="classifier">
+           str
+          </span>
+         </dt>
+         <dd>
+          Column names for the x and y coordinates of each point.
+         </dd>
+        </dl>
+       </dd>
+      </dl>
+      <dl class="class">
+       <dt id="datashader.glyphs.Line">
+        <em class="property">
+         class
+        </em>
+        <code class="descclassname">
+         datashader.glyphs.
+        </code>
+        <code class="descname">
+         Line
+        </code>
+        <span class="sig-paren">
+         (
+        </span>
+        <em>
+         x
+        </em>
+        ,
+        <em>
+         y
+        </em>
+        <span class="sig-paren">
+         )
+        </span>
+        <a class="reference internal" href="_modules/datashader/glyphs.html#Line">
+         <span class="viewcode-link">
+          [source]
+         </span>
+        </a>
+        <a class="headerlink" href="#datashader.glyphs.Line" title="Permalink to this definition">
+         ¶
+        </a>
+       </dt>
+       <dd>
+        <p>
+         A line, with vertices defined by
+         <code class="docutils literal">
+          <span class="pre">
+           x
+          </span>
+         </code>
+         and
+         <code class="docutils literal">
+          <span class="pre">
+           y
+          </span>
+         </code>
+         .
+        </p>
+        <dl class="docutils">
+         <dt>
+          x, y
+          <span class="classifier-delimiter">
+           :
+          </span>
+          <span class="classifier">
+           str
+          </span>
+         </dt>
+         <dd>
+          Column names for the x and y coordinates of each vertex.
+         </dd>
+        </dl>
+       </dd>
+      </dl>
+      <dl class="class">
+       <dt id="datashader.reductions.count">
+        <em class="property">
+         class
+        </em>
+        <code class="descclassname">
+         datashader.reductions.
+        </code>
+        <code class="descname">
+         count
+        </code>
+        <span class="sig-paren">
+         (
+        </span>
+        <em>
+         column=None
+        </em>
+        <span class="sig-paren">
+         )
+        </span>
+        <a class="reference internal" href="_modules/datashader/reductions.html#count">
+         <span class="viewcode-link">
+          [source]
+         </span>
+        </a>
+        <a class="headerlink" href="#datashader.reductions.count" title="Permalink to this definition">
+         ¶
+        </a>
+       </dt>
+       <dd>
+        <p>
+         Count elements in each bin.
+        </p>
+        <dl class="docutils">
+         <dt>
+          column
+          <span class="classifier-delimiter">
+           :
+          </span>
+          <span class="classifier">
+           str, optional
+          </span>
+         </dt>
+         <dd>
+          If provided, only counts elements in
+          <code class="docutils literal">
+           <span class="pre">
+            column
+           </span>
+          </code>
+          that are not
+          <code class="docutils literal">
+           <span class="pre">
+            NaN
+           </span>
+          </code>
+          .
+Otherwise, counts every element.
+         </dd>
+        </dl>
+       </dd>
+      </dl>
+      <dl class="class">
+       <dt id="datashader.reductions.any">
+        <em class="property">
+         class
+        </em>
+        <code class="descclassname">
+         datashader.reductions.
+        </code>
+        <code class="descname">
+         any
+        </code>
+        <span class="sig-paren">
+         (
+        </span>
+        <em>
+         column=None
+        </em>
+        <span class="sig-paren">
+         )
+        </span>
+        <a class="reference internal" href="_modules/datashader/reductions.html#any">
+         <span class="viewcode-link">
+          [source]
+         </span>
+        </a>
+        <a class="headerlink" href="#datashader.reductions.any" title="Permalink to this definition">
+         ¶
+        </a>
+       </dt>
+       <dd>
+        <p>
+         Whether any elements in
+         <code class="docutils literal">
+          <span class="pre">
+           column
+          </span>
+         </code>
+         map to each bin.
+        </p>
+        <dl class="docutils">
+         <dt>
+          column
+          <span class="classifier-delimiter">
+           :
+          </span>
+          <span class="classifier">
+           str, optional
+          </span>
+         </dt>
+         <dd>
+          If provided, only elements in
+          <code class="docutils literal">
+           <span class="pre">
+            column
+           </span>
+          </code>
+          that are
+          <code class="docutils literal">
+           <span class="pre">
+            NaN
+           </span>
+          </code>
+          are skipped.
+         </dd>
+        </dl>
+       </dd>
+      </dl>
+      <dl class="class">
+       <dt id="datashader.reductions.sum">
+        <em class="property">
+         class
+        </em>
+        <code class="descclassname">
+         datashader.reductions.
+        </code>
+        <code class="descname">
+         sum
+        </code>
+        <span class="sig-paren">
+         (
+        </span>
+        <em>
+         column
+        </em>
+        <span class="sig-paren">
+         )
+        </span>
+        <a class="reference internal" href="_modules/datashader/reductions.html#sum">
+         <span class="viewcode-link">
+          [source]
+         </span>
+        </a>
+        <a class="headerlink" href="#datashader.reductions.sum" title="Permalink to this definition">
+         ¶
+        </a>
+       </dt>
+       <dd>
+        <p>
+         Sum of all elements in
+         <code class="docutils literal">
+          <span class="pre">
+           column
+          </span>
+         </code>
+         .
+        </p>
+        <dl class="docutils">
+         <dt>
+          column
+          <span class="classifier-delimiter">
+           :
+          </span>
+          <span class="classifier">
+           str
+          </span>
+         </dt>
+         <dd>
+          Name of the column to aggregate over. Column data type must be numeric.
+          <code class="docutils literal">
+           <span class="pre">
+            NaN
+           </span>
+          </code>
+          values in the column are skipped.
+         </dd>
+        </dl>
+       </dd>
+      </dl>
+      <dl class="class">
+       <dt id="datashader.reductions.m2">
+        <em class="property">
+         class
+        </em>
+        <code class="descclassname">
+         datashader.reductions.
+        </code>
+        <code class="descname">
+         m2
+        </code>
+        <span class="sig-paren">
+         (
+        </span>
+        <em>
+         column
+        </em>
+        <span class="sig-paren">
+         )
+        </span>
+        <a class="reference internal" href="_modules/datashader/reductions.html#m2">
+         <span class="viewcode-link">
+          [source]
+         </span>
+        </a>
+        <a class="headerlink" href="#datashader.reductions.m2" title="Permalink to this definition">
+         ¶
+        </a>
+       </dt>
+       <dd>
+        <p>
+         Sum of square differences from the mean of all elements in
+         <code class="docutils literal">
+          <span class="pre">
+           column
+          </span>
+         </code>
+         .
+        </p>
+        <p>
+         Intermediate value for computing
+         <code class="docutils literal">
+          <span class="pre">
+           var
+          </span>
+         </code>
+         and
+         <code class="docutils literal">
+          <span class="pre">
+           std
+          </span>
+         </code>
+         , not intended to be
+used on its own.
+        </p>
+        <dl class="docutils">
+         <dt>
+          column
+          <span class="classifier-delimiter">
+           :
+          </span>
+          <span class="classifier">
+           str
+          </span>
+         </dt>
+         <dd>
+          Name of the column to aggregate over. Column data type must be numeric.
+          <code class="docutils literal">
+           <span class="pre">
+            NaN
+           </span>
+          </code>
+          values in the column are skipped.
+         </dd>
+        </dl>
+       </dd>
+      </dl>
+      <dl class="class">
+       <dt id="datashader.reductions.min">
+        <em class="property">
+         class
+        </em>
+        <code class="descclassname">
+         datashader.reductions.
+        </code>
+        <code class="descname">
+         min
+        </code>
+        <span class="sig-paren">
+         (
+        </span>
+        <em>
+         column
+        </em>
+        <span class="sig-paren">
+         )
+        </span>
+        <a class="reference internal" href="_modules/datashader/reductions.html#min">
+         <span class="viewcode-link">
+          [source]
+         </span>
+        </a>
+        <a class="headerlink" href="#datashader.reductions.min" title="Permalink to this definition">
+         ¶
+        </a>
+       </dt>
+       <dd>
+        <p>
+         Minimum value of all elements in
+         <code class="docutils literal">
+          <span class="pre">
+           column
+          </span>
+         </code>
+         .
+        </p>
+        <dl class="docutils">
+         <dt>
+          column
+          <span class="classifier-delimiter">
+           :
+          </span>
+          <span class="classifier">
+           str
+          </span>
+         </dt>
+         <dd>
+          Name of the column to aggregate over. Column data type must be numeric.
+          <code class="docutils literal">
+           <span class="pre">
+            NaN
+           </span>
+          </code>
+          values in the column are skipped.
+         </dd>
+        </dl>
+       </dd>
+      </dl>
+      <dl class="class">
+       <dt id="datashader.reductions.max">
+        <em class="property">
+         class
+        </em>
+        <code class="descclassname">
+         datashader.reductions.
+        </code>
+        <code class="descname">
+         max
+        </code>
+        <span class="sig-paren">
+         (
+        </span>
+        <em>
+         column
+        </em>
+        <span class="sig-paren">
+         )
+        </span>
+        <a class="reference internal" href="_modules/datashader/reductions.html#max">
+         <span class="viewcode-link">
+          [source]
+         </span>
+        </a>
+        <a class="headerlink" href="#datashader.reductions.max" title="Permalink to this definition">
+         ¶
+        </a>
+       </dt>
+       <dd>
+        <p>
+         Maximum value of all elements in
+         <code class="docutils literal">
+          <span class="pre">
+           column
+          </span>
+         </code>
+         .
+        </p>
+        <dl class="docutils">
+         <dt>
+          column
+          <span class="classifier-delimiter">
+           :
+          </span>
+          <span class="classifier">
+           str
+          </span>
+         </dt>
+         <dd>
+          Name of the column to aggregate over. Column data type must be numeric.
+          <code class="docutils literal">
+           <span class="pre">
+            NaN
+           </span>
+          </code>
+          values in the column are skipped.
+         </dd>
+        </dl>
+       </dd>
+      </dl>
+      <dl class="class">
+       <dt id="datashader.reductions.mean">
+        <em class="property">
+         class
+        </em>
+        <code class="descclassname">
+         datashader.reductions.
+        </code>
+        <code class="descname">
+         mean
+        </code>
+        <span class="sig-paren">
+         (
+        </span>
+        <em>
+         column
+        </em>
+        <span class="sig-paren">
+         )
+        </span>
+        <a class="reference internal" href="_modules/datashader/reductions.html#mean">
+         <span class="viewcode-link">
+          [source]
+         </span>
+        </a>
+        <a class="headerlink" href="#datashader.reductions.mean" title="Permalink to this definition">
+         ¶
+        </a>
+       </dt>
+       <dd>
+        <p>
+         Mean of all elements in
+         <code class="docutils literal">
+          <span class="pre">
+           column
+          </span>
+         </code>
+         .
+        </p>
+        <dl class="docutils">
+         <dt>
+          column
+          <span class="classifier-delimiter">
+           :
+          </span>
+          <span class="classifier">
+           str
+          </span>
+         </dt>
+         <dd>
+          Name of the column to aggregate over. Column data type must be numeric.
+          <code class="docutils literal">
+           <span class="pre">
+            NaN
+           </span>
+          </code>
+          values in the column are skipped.
+         </dd>
+        </dl>
+       </dd>
+      </dl>
+      <dl class="class">
+       <dt id="datashader.reductions.var">
+        <em class="property">
+         class
+        </em>
+        <code class="descclassname">
+         datashader.reductions.
+        </code>
+        <code class="descname">
+         var
+        </code>
+        <span class="sig-paren">
+         (
+        </span>
+        <em>
+         column
+        </em>
+        <span class="sig-paren">
+         )
+        </span>
+        <a class="reference internal" href="_modules/datashader/reductions.html#var">
+         <span class="viewcode-link">
+          [source]
+         </span>
+        </a>
+        <a class="headerlink" href="#datashader.reductions.var" title="Permalink to this definition">
+         ¶
+        </a>
+       </dt>
+       <dd>
+        <p>
+         Variance of all elements in
+         <code class="docutils literal">
+          <span class="pre">
+           column
+          </span>
+         </code>
+         .
+        </p>
+        <dl class="docutils">
+         <dt>
+          column
+          <span class="classifier-delimiter">
+           :
+          </span>
+          <span class="classifier">
+           str
+          </span>
+         </dt>
+         <dd>
+          Name of the column to aggregate over. Column data type must be numeric.
+          <code class="docutils literal">
+           <span class="pre">
+            NaN
+           </span>
+          </code>
+          values in the column are skipped.
+         </dd>
+        </dl>
+       </dd>
+      </dl>
+      <dl class="class">
+       <dt id="datashader.reductions.std">
+        <em class="property">
+         class
+        </em>
+        <code class="descclassname">
+         datashader.reductions.
+        </code>
+        <code class="descname">
+         std
+        </code>
+        <span class="sig-paren">
+         (
+        </span>
+        <em>
+         column
+        </em>
+        <span class="sig-paren">
+         )
+        </span>
+        <a class="reference internal" href="_modules/datashader/reductions.html#std">
+         <span class="viewcode-link">
+          [source]
+         </span>
+        </a>
+        <a class="headerlink" href="#datashader.reductions.std" title="Permalink to this definition">
+         ¶
+        </a>
+       </dt>
+       <dd>
+        <p>
+         Standard Deviation of all elements in
+         <code class="docutils literal">
+          <span class="pre">
+           column
+          </span>
+         </code>
+         .
+        </p>
+        <dl class="docutils">
+         <dt>
+          column
+          <span class="classifier-delimiter">
+           :
+          </span>
+          <span class="classifier">
+           str
+          </span>
+         </dt>
+         <dd>
+          Name of the column to aggregate over. Column data type must be numeric.
+          <code class="docutils literal">
+           <span class="pre">
+            NaN
+           </span>
+          </code>
+          values in the column are skipped.
+         </dd>
+        </dl>
+       </dd>
+      </dl>
+      <dl class="class">
+       <dt id="datashader.reductions.count_cat">
+        <em class="property">
+         class
+        </em>
+        <code class="descclassname">
+         datashader.reductions.
+        </code>
+        <code class="descname">
+         count_cat
+        </code>
+        <span class="sig-paren">
+         (
+        </span>
+        <em>
+         column
+        </em>
+        <span class="sig-paren">
+         )
+        </span>
+        <a class="reference internal" href="_modules/datashader/reductions.html#count_cat">
+         <span class="viewcode-link">
+          [source]
+         </span>
+        </a>
+        <a class="headerlink" href="#datashader.reductions.count_cat" title="Permalink to this definition">
+         ¶
+        </a>
+       </dt>
+       <dd>
+        <p>
+         Count of all elements in
+         <code class="docutils literal">
+          <span class="pre">
+           column
+          </span>
+         </code>
+         , grouped by category.
+        </p>
+        <dl class="docutils">
+         <dt>
+          column
+          <span class="classifier-delimiter">
+           :
+          </span>
+          <span class="classifier">
+           str
+          </span>
+         </dt>
+         <dd>
+          Name of the column to aggregate over. Column data type must be
+categorical. Resulting aggregate has a outer dimension axis along the
+categories present.
+         </dd>
+        </dl>
+       </dd>
+      </dl>
+      <dl class="class">
+       <dt id="datashader.reductions.summary">
+        <em class="property">
+         class
+        </em>
+        <code class="descclassname">
+         datashader.reductions.
+        </code>
+        <code class="descname">
+         summary
+        </code>
+        <span class="sig-paren">
+         (
+        </span>
+        <em>
+         **kwargs
+        </em>
+        <span class="sig-paren">
+         )
+        </span>
+        <a class="reference internal" href="_modules/datashader/reductions.html#summary">
+         <span class="viewcode-link">
+          [source]
+         </span>
+        </a>
+        <a class="headerlink" href="#datashader.reductions.summary" title="Permalink to this definition">
+         ¶
+        </a>
+       </dt>
+       <dd>
+        <p>
+         A collection of named reductions.
+        </p>
+        <p>
+         Computes all aggregates simultaneously, output is stored as a
+         <code class="docutils literal">
+          <span class="pre">
+           xarray.Dataset
+          </span>
+         </code>
+         .
+        </p>
+        <p>
+         A reduction for computing the mean of column “a”, and the sum of column “b”
+for each bin, all in a single pass.
+        </p>
+        <div class="highlight-default">
+         <div class="highlight">
+          <pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">datashader</span> <span class="k">as</span> <span class="nn">ds</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">red</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">mean_a</span><span class="o">=</span><span class="n">ds</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s1">'a'</span><span class="p">),</span> <span class="n">sum_b</span><span class="o">=</span><span class="n">ds</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="s1">'b'</span><span class="p">))</span>
+</pre>
+         </div>
+        </div>
+       </dd>
+      </dl>
+      <span class="target" id="module-datashader.transfer_functions">
+      </span>
+      <dl class="function">
+       <dt id="datashader.transfer_functions.stack">
+        <code class="descclassname">
+         datashader.transfer_functions.
+        </code>
+        <code class="descname">
+         stack
+        </code>
+        <span class="sig-paren">
+         (
+        </span>
+        <em>
+         *imgs
+        </em>
+        ,
+        <em>
+         **kwargs
+        </em>
+        <span class="sig-paren">
+         )
+        </span>
+        <a class="reference internal" href="_modules/datashader/transfer_functions.html#stack">
+         <span class="viewcode-link">
+          [source]
+         </span>
+        </a>
+        <a class="headerlink" href="#datashader.transfer_functions.stack" title="Permalink to this definition">
+         ¶
+        </a>
+       </dt>
+       <dd>
+        <p>
+         Combine images together, overlaying later images onto earlier ones.
+        </p>
+        <dl class="docutils">
+         <dt>
+          imgs
+          <span class="classifier-delimiter">
+           :
+          </span>
+          <span class="classifier">
+           iterable of Image
+          </span>
+         </dt>
+         <dd>
+          The images to combine.
+         </dd>
+         <dt>
+          how
+          <span class="classifier-delimiter">
+           :
+          </span>
+          <span class="classifier">
+           str, optional
+          </span>
+         </dt>
+         <dd>
+          The compositing operator to combine pixels. Default is
+          <cite>
+           ‘over’
+          </cite>
+          .
+         </dd>
+        </dl>
+       </dd>
+      </dl>
+      <dl class="function">
+       <dt id="datashader.transfer_functions.shade">
+        <code class="descclassname">
+         datashader.transfer_functions.
+        </code>
+        <code class="descname">
+         shade
+        </code>
+        <span class="sig-paren">
+         (
+        </span>
+        <em>
+         agg, cmap=['lightblue', 'darkblue'], color_key=['#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00', '#ffff33', '#a65628', '#f781bf', '#999999', '#66c2a5', '#fc8d62', '#8da0cb', '#a6d854', '#ffd92f', '#e5c494', '#ffffb3', '#fb8072', '#fdb462', '#fccde5', '#d9d9d9', '#ccebc5', '#ffed6f'], how='eq_hist', alpha=255, min_alpha=40, span=None, name=None
+        </em>
+        <span class="sig-paren">
+         )
+        </span>
+        <a class="reference internal" href="_modules/datashader/transfer_functions.html#shade">
+         <span class="viewcode-link">
+          [source]
+         </span>
+        </a>
+        <a class="headerlink" href="#datashader.transfer_functions.shade" title="Permalink to this definition">
+         ¶
+        </a>
+       </dt>
+       <dd>
+        <p>
+         Convert a DataArray to an image by choosing an RGBA pixel color for each value.
+        </p>
+        <p>
+         Requires a DataArray with a single data dimension, here called the
+“value”, indexed using either 2D or 3D coordinates.
+        </p>
+        <p>
+         For a DataArray with 2D coordinates, the RGB channels are computed
+from the values by interpolated lookup into the given colormap
+         <code class="docutils literal">
+          <span class="pre">
+           cmap
+          </span>
+         </code>
+         .  The A channel is then set to the given fixed
+         <code class="docutils literal">
+          <span class="pre">
+           alpha
+          </span>
+         </code>
+         value for all non-zero values, and to zero for all zero values.
+        </p>
+        <p>
+         DataArrays with 3D coordinates are expected to contain values
+distributed over different categories that are indexed by the
+additional coordinate.  Such an array would reduce to the
+2D-coordinate case if collapsed across the categories (e.g. if one
+did
+         <code class="docutils literal">
+          <span class="pre">
+           aggc.sum(dim='cat')
+          </span>
+         </code>
+         for a categorical dimension
+         <code class="docutils literal">
+          <span class="pre">
+           cat
+          </span>
+         </code>
+         ).
+The RGB channels for the uncollapsed, 3D case are computed by
+averaging the colors in the provided
+         <code class="docutils literal">
+          <span class="pre">
+           color_key
+          </span>
+         </code>
+         (with one color
+per category), weighted by the array’s value for that category.
+The A channel is then computed from the array’s total value
+collapsed across all categories at that location, ranging from the
+specified
+         <code class="docutils literal">
+          <span class="pre">
+           min_alpha
+          </span>
+         </code>
+         to the maximum alpha value (255).
+        </p>
+        <p>
+         agg : DataArray
+cmap : list of colors or matplotlib.colors.Colormap, optional
+        </p>
+        <blockquote>
+         <div>
+          The colormap to use for 2D agg arrays. Can be either a list of
+colors (specified either by name, RGBA hexcode, or as a tuple
+of
+          <code class="docutils literal">
+           <span class="pre">
+            (red,
+           </span>
+           <span class="pre">
+            green,
+           </span>
+           <span class="pre">
+            blue)
+           </span>
+          </code>
+          values.), or a matplotlib colormap
+object.  Default is
+          <code class="docutils literal">
+           <span class="pre">
+            ["lightblue",
+           </span>
+           <span class="pre">
+            "darkblue"]
+           </span>
+          </code>
+          .
+         </div>
+        </blockquote>
+        <dl class="docutils">
+         <dt>
+          color_key
+          <span class="classifier-delimiter">
+           :
+          </span>
+          <span class="classifier">
+           dict or iterable
+          </span>
+         </dt>
+         <dd>
+          The colors to use for a 3D (categorical) agg array.  Can be
+either a
+          <code class="docutils literal">
+           <span class="pre">
+            dict
+           </span>
+          </code>
+          mapping from field name to colors, or an
+iterable of colors in the same order as the record fields,
+and including at least that many distinct colors.
+         </dd>
+         <dt>
+          how
+          <span class="classifier-delimiter">
+           :
+          </span>
+          <span class="classifier">
+           str or callable, optional
+          </span>
+         </dt>
+         <dd>
+          The interpolation method to use, for the
+          <code class="docutils literal">
+           <span class="pre">
+            cmap
+           </span>
+          </code>
+          of a 2D
+DataArray or the alpha channel of a 3D DataArray. Valid
+strings are ‘eq_hist’ [default], ‘cbrt’ (cube root), ‘log’
+(logarithmic), and ‘linear’. Callables take 2 arguments - a
+2-dimensional array of magnitudes at each pixel, and a boolean
+mask array indicating missingness. They should return a numeric
+array of the same shape, with
+          <code class="docutils literal">
+           <span class="pre">
+            NaN
+           </span>
+          </code>
+          values where the mask was
+True.
+         </dd>
+         <dt>
+          alpha
+          <span class="classifier-delimiter">
+           :
+          </span>
+          <span class="classifier">
+           int, optional
+          </span>
+         </dt>
+         <dd>
+          Value between 0 - 255 representing the alpha value to use for
+colormapped pixels that contain data (i.e. non-NaN values).
+Regardless of this value,
+          <code class="docutils literal">
+           <span class="pre">
+            NaN
+           </span>
+          </code>
+          values are set to be fully
+transparent when doing colormapping.
+         </dd>
+         <dt>
+          min_alpha
+          <span class="classifier-delimiter">
+           :
+          </span>
+          <span class="classifier">
+           float, optional
+          </span>
+         </dt>
+         <dd>
+          The minimum alpha value to use for non-empty pixels when doing
+colormapping, in [0, 255].  Use a higher value to avoid
+undersaturation, i.e. poorly visible low-value datapoints, at
+the expense of the overall dynamic range.
+         </dd>
+         <dt>
+          span
+          <span class="classifier-delimiter">
+           :
+          </span>
+          <span class="classifier">
+           list of min-max range, optional
+          </span>
+         </dt>
+         <dd>
+          Min and max data values to use for colormap interpolation, when
+wishing to override autoranging.
+         </dd>
+         <dt>
+          name
+          <span class="classifier-delimiter">
+           :
+          </span>
+          <span class="classifier">
+           string name, optional
+          </span>
+         </dt>
+         <dd>
+          Optional string name to give to the Image object to return, 
+to label results for display.
+         </dd>
+        </dl>
+       </dd>
+      </dl>
+      <dl class="function">
+       <dt id="datashader.transfer_functions.set_background">
+        <code class="descclassname">
+         datashader.transfer_functions.
+        </code>
+        <code class="descname">
+         set_background
+        </code>
+        <span class="sig-paren">
+         (
+        </span>
+        <em>
+         img
+        </em>
+        ,
+        <em>
+         color=None
+        </em>
+        ,
+        <em>
+         name=None
+        </em>
+        <span class="sig-paren">
+         )
+        </span>
+        <a class="reference internal" href="_modules/datashader/transfer_functions.html#set_background">
+         <span class="viewcode-link">
+          [source]
+         </span>
+        </a>
+        <a class="headerlink" href="#datashader.transfer_functions.set_background" title="Permalink to this definition">
+         ¶
+        </a>
+       </dt>
+       <dd>
+        <p>
+         Return a new image, with the background set to
+         <cite>
+          color
+         </cite>
+         .
+        </p>
+        <p>
+         img : Image
+color : color name or tuple, optional
+        </p>
+        <blockquote>
+         <div>
+          The background color. Can be specified either by name, hexcode, or as a
+tuple of
+          <code class="docutils literal">
+           <span class="pre">
+            (red,
+           </span>
+           <span class="pre">
+            green,
+           </span>
+           <span class="pre">
+            blue)
+           </span>
+          </code>
+          values.
+         </div>
+        </blockquote>
+       </dd>
+      </dl>
+      <dl class="function">
+       <dt id="datashader.transfer_functions.spread">
+        <code class="descclassname">
+         datashader.transfer_functions.
+        </code>
+        <code class="descname">
+         spread
+        </code>
+        <span class="sig-paren">
+         (
+        </span>
+        <em>
+         img
+        </em>
+        ,
+        <em>
+         px=1
+        </em>
+        ,
+        <em>
+         shape='circle'
+        </em>
+        ,
+        <em>
+         how='over'
+        </em>
+        ,
+        <em>
+         mask=None
+        </em>
+        ,
+        <em>
+         name=None
+        </em>
+        <span class="sig-paren">
+         )
+        </span>
+        <a class="reference internal" href="_modules/datashader/transfer_functions.html#spread">
+         <span class="viewcode-link">
+          [source]
+         </span>
+        </a>
+        <a class="headerlink" href="#datashader.transfer_functions.spread" title="Permalink to this definition">
+         ¶
+        </a>
+       </dt>
+       <dd>
+        <p>
+         Spread pixels in an image.
+        </p>
+        <p>
+         Spreading expands each pixel a certain number of pixels on all sides
+according to a given shape, merging pixels using a specified compositing
+operator. This can be useful to make sparse plots more visible.
+        </p>
+        <p>
+         img : Image
+px : int, optional
+        </p>
+        <blockquote>
+         <div>
+          Number of pixels to spread on all sides
+         </div>
+        </blockquote>
+        <dl class="docutils">
+         <dt>
+          shape
+          <span class="classifier-delimiter">
+           :
+          </span>
+          <span class="classifier">
+           str, optional
+          </span>
+         </dt>
+         <dd>
+          The shape to spread by. Options are ‘circle’ [default] or ‘square’.
+         </dd>
+         <dt>
+          how
+          <span class="classifier-delimiter">
+           :
+          </span>
+          <span class="classifier">
+           str, optional
+          </span>
+         </dt>
+         <dd>
+          The name of the compositing operator to use when combining pixels.
+         </dd>
+         <dt>
+          mask
+          <span class="classifier-delimiter">
+           :
+          </span>
+          <span class="classifier">
+           ndarray, shape (M, M), optional
+          </span>
+         </dt>
+         <dd>
+          The mask to spread over. If provided, this mask is used instead of
+generating one based on
+          <cite>
+           px
+          </cite>
+          and
+          <cite>
+           shape
+          </cite>
+          . Must be a square array
+with odd dimensions. Pixels are spread from the center of the mask to
+locations where the mask is True.
+         </dd>
+         <dt>
+          name
+          <span class="classifier-delimiter">
+           :
+          </span>
+          <span class="classifier">
+           string name, optional
+          </span>
+         </dt>
+         <dd>
+          Optional string name to give to the Image object to return, 
+to label results for display.
+         </dd>
+        </dl>
+       </dd>
+      </dl>
+      <dl class="function">
+       <dt id="datashader.transfer_functions.dynspread">
+        <code class="descclassname">
+         datashader.transfer_functions.
+        </code>
+        <code class="descname">
+         dynspread
+        </code>
+        <span class="sig-paren">
+         (
+        </span>
+        <em>
+         img
+        </em>
+        ,
+        <em>
+         threshold=0.5
+        </em>
+        ,
+        <em>
+         max_px=3
+        </em>
+        ,
+        <em>
+         shape='circle'
+        </em>
+        ,
+        <em>
+         how='over'
+        </em>
+        ,
+        <em>
+         name=None
+        </em>
+        <span class="sig-paren">
+         )
+        </span>
+        <a class="reference internal" href="_modules/datashader/transfer_functions.html#dynspread">
+         <span class="viewcode-link">
+          [source]
+         </span>
+        </a>
+        <a class="headerlink" href="#datashader.transfer_functions.dynspread" title="Permalink to this definition">
+         ¶
+        </a>
+       </dt>
+       <dd>
+        <p>
+         Spread pixels in an image dynamically based on the image density.
+        </p>
+        <p>
+         Spreading expands each pixel a certain number of pixels on all sides
+according to a given shape, merging pixels using a specified compositing
+operator. This can be useful to make sparse plots more visible. Dynamic
+spreading determines how many pixels to spread based on a density
+heuristic.  Spreading starts at 1 pixel, and stops when the fraction
+of adjacent non-empty pixels reaches the specified threshold, or
+the max_px is reached, whichever comes first.
+        </p>
+        <p>
+         img : Image
+threshold : float, optional
+        </p>
+        <blockquote>
+         <div>
+          A tuning parameter in [0, 1], with higher values giving more
+spreading.
+         </div>
+        </blockquote>
+        <dl class="docutils">
+         <dt>
+          max_px
+          <span class="classifier-delimiter">
+           :
+          </span>
+          <span class="classifier">
+           int, optional
+          </span>
+         </dt>
+         <dd>
+          Maximum number of pixels to spread on all sides.
+         </dd>
+         <dt>
+          shape
+          <span class="classifier-delimiter">
+           :
+          </span>
+          <span class="classifier">
+           str, optional
+          </span>
+         </dt>
+         <dd>
+          The shape to spread by. Options are ‘circle’ [default] or ‘square’.
+         </dd>
+         <dt>
+          how
+          <span class="classifier-delimiter">
+           :
+          </span>
+          <span class="classifier">
+           str, optional
+          </span>
+         </dt>
+         <dd>
+          The name of the compositing operator to use when combining pixels.
+         </dd>
+        </dl>
+       </dd>
+      </dl>
+     </div>
+    </div>
+   </div>
+  </div>
+  <!-- END MAIN BODY OF DOCS ––––––––––––– -->
+  <footer class="footer">
+   <div class="footer-links">
+    <ul>
+     <li>
+      <span class="footer-title">
+       Links
+      </span>
+     </li>
+     <li>
+      <a href="getting_started/index.html">
+       Getting Started
+      </a>
+     </li>
+     <li>
+      <a href="user_guide/index.html">
+       User Guide
+      </a>
+     </li>
+     <li>
+      <a href="topics/index.html">
+       Topics
+      </a>
+     </li>
+     <li>
+      <a href="performance.html">
+       Performance
+      </a>
+     </li>
+     <li>
+      <a href="#">
+       API
+      </a>
+     </li>
+     <li>
+      <a href="FAQ.html">
+       FAQ
+      </a>
+     </li>
+    </ul>
+    <ul>
+     <li>
+      <span class="footer-title">
+       Join Us
+      </span>
+     </li>
+     <li>
+      <a href="//twitter.com/datashader/.html">
+       Twitter
+      </a>
+     </li>
+     <li>
+      <a href="//github.com/bokeh/datashader/.html">
+       Github
+      </a>
+     </li>
+    </ul>
+    <ul class="copyright">
+     <li>
+      2016, Continuum Analytics
+     </li>
+    </ul>
+   </div>
+  </footer>
+  <!-- Google Analytics -->
+  <script>
+   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-61554933-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- MathJax Config -->
+  <script type="text/x-mathjax-config">
+   MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+  </script>
+  <!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+ </body>
+</html>

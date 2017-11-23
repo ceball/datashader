@@ -1,0 +1,10 @@
+lidar
+_____
+
+.. notebook:: datashader ../../examples/topics/lidar.ipynb
+    :offset: 1
+
+
+-------
+
+`Right click to download this notebook from GitHub. <https://raw.githubusercontent.com/ioam/datashader/master/examples/topics/lidar.ipynb>`_

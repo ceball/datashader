@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8"/>
+  <title>
+   Performance — datashader
+  </title>
+  <meta content="Stop plotting your data - annotate your data and let it visualize itself." name="description"/>
+  <meta content="datashader contributors" name="author"/>
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js">
+  </script>
+  <script>
+   WebFont.load({
+      google: {
+        families: ['Source Sans Pro']
+      }
+    });
+  </script>
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="_static/custom.css" rel="stylesheet"/>
+  <link href="_static/css/main.css" rel="stylesheet"/>
+  <!-- Scripts
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">
+  </script>
+  <script async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript">
+  </script>
+  <script src="_static/js/main.js">
+  </script>
+  <script src="_static/custom.js">
+  </script>
+  <script src="_static/require.js">
+  </script>
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="_static/images/favicon.ico" rel="icon" type="image/png"/>
+  <!-- Canonical
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="/performance.html" rel="canonical"/>
+ </head>
+ <body class="">
+  <header class="navigation">
+   <div class="wrapper">
+    <a class="logo" href="/">
+     <img alt="Logo" src="_static/images/logo.png"/>
+    </a>
+    <a class="navigation-menu logo-text" href="/">
+     datashader
+    </a>
+    <a class="navigation-menu-button" href="javascript:void(0)" id="js-mobile-menu">
+     Menu
+    </a>
+    <nav>
+     <ul class="navigation-menu show" id="js-navigation-menu">
+      <li class="nav-link">
+       <a href="getting_started/index.html">
+        Getting Started
+       </a>
+      </li>
+      <li class="nav-link">
+       <a href="user_guide/index.html">
+        User Guide
+       </a>
+      </li>
+      <li class="nav-link">
+       <a href="topics/index.html">
+        Topics
+       </a>
+      </li>
+      <li class="nav-link">
+       <a href="#">
+        Performance
+       </a>
+      </li>
+      <li class="nav-link">
+       <a href="api.html">
+        API
+       </a>
+      </li>
+      <li class="nav-link">
+       <a href="FAQ.html">
+        FAQ
+       </a>
+      </li>
+      <li class="nav-link">
+       <div style="display:inline-block;vertical-align: middle;">
+        <div class="search-bar">
+         <form action="search.html" method="get" role="search">
+          <input name="q" placeholder="Search" type="search"/>
+          <button type="submit">
+           <img alt="Search Icon" src="https://raw.githubusercontent.com/thoughtbot/refills/master/source/images/search-icon-black.png"/>
+          </button>
+         </form>
+        </div>
+       </div>
+      </li>
+     </ul>
+    </nav>
+   </div>
+  </header>
+  <!-- MAIN BODY OF DOCS –––––––––––––––––– -->
+  <div class="docs section">
+   <div id="hacketyhackhack">
+    <!-- style="width:20%;margin-right: 100px;"> -->
+    <!--style="display: none;"> style="display:none;"> -->
+    <div class="toc" style="width:15%; margin-right:20px;">
+     <ul class="current">
+      <li class="toctree-l1">
+       <a class="reference internal" href="getting_started/index.html">
+        Getting Started
+       </a>
+      </li>
+      <li class="toctree-l1">
+       <a class="reference internal" href="user_guide/index.html">
+        User Guide
+       </a>
+      </li>
+      <li class="toctree-l1">
+       <a class="reference internal" href="topics/index.html">
+        Topics
+       </a>
+      </li>
+      <li class="toctree-l1 current">
+       <a class="current reference internal" href="#">
+        Performance
+       </a>
+       <ul>
+        <li class="toctree-l2">
+         <a class="reference internal" href="#file-formats">
+          File formats
+         </a>
+        </li>
+        <li class="toctree-l2">
+         <a class="reference internal" href="#single-machine">
+          Single machine
+         </a>
+        </li>
+        <li class="toctree-l2">
+         <a class="reference internal" href="#multiple-machines">
+          Multiple machines
+         </a>
+        </li>
+       </ul>
+      </li>
+      <li class="toctree-l1">
+       <a class="reference internal" href="api.html">
+        API
+       </a>
+      </li>
+      <li class="toctree-l1">
+       <a class="reference internal" href="FAQ.html">
+        FAQ
+       </a>
+      </li>
+     </ul>
+    </div>
+   </div>
+   <div class="content">
+    <!-- style="max-width:80%;margin-left:auto;margin-right: auto;">-->
+    <div class="section" id="performance">
+     <h1>
+      Performance
+      <a class="headerlink" href="#performance" title="Permalink to this headline">
+       ¶
+      </a>
+     </h1>
+     <p>
+      Datashader is designed to make it simple to work with even very large
+datasets.  To get good performance, it is essential that each step in
+the overall processing pipeline be set up appropriately.  Below we
+share some of our suggestions based on our own
+      <a class="reference external" href="https://github.com/bokeh/datashader/issues/313">
+       Benchmarking
+      </a>
+      and
+optimization experience, which should help you obtain suitable
+performance in your own work.
+     </p>
+     <div class="section" id="file-formats">
+      <h2>
+       File formats
+       <a class="headerlink" href="#file-formats" title="Permalink to this headline">
+        ¶
+       </a>
+      </h2>
+      <p>
+       Based on our
+       <a class="reference external" href="https://github.com/bokeh/datashader/issues/129">
+        testing with various file formats
+       </a>
+       , we recommend
+storing any large columnar datasets in the
+       <a class="reference external" href="https://parquet.apache.org/">
+        Apache Parquet
+       </a>
+       format
+when possible, using the
+       <a class="reference external" href="https://github.com/dask/fastparquet">
+        fastparquet
+       </a>
+       library with “Snappy” compression:
+      </p>
+      <div class="highlight-python">
+       <div class="highlight">
+        <pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">dask.dataframe</span> <span class="kn">as</span> <span class="nn">dd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dd</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="s2">"SNAPPY"</span><span class="p">)</span>
+</pre>
+       </div>
+      </div>
+      <p>
+       If your data includes categorical values that take on a limited, fixed
+number of possible values (e.g. “Male”, “Female”), With parquet,
+categorical columns use a more memory-efficient data representation
+and are optimized for common operations such as sorting and finding
+uniques. Before saving, just convert the column as follows:
+      </p>
+      <div class="highlight-python">
+       <div class="highlight">
+        <pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="p">[</span><span class="n">colname</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">colname</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">'category'</span><span class="p">)</span>
+</pre>
+       </div>
+      </div>
+      <p>
+       By default, numerical datasets typically use 64-bit floats, but many
+applications do not require 64-bit precision when aggregating over a
+very large number of datapoints to show a distribution.  Using 32-bit
+floats reduces storage and memory requirements in half, and also
+typically greatly speeds up computations because only half as much
+data needs to be accessed in memory.  If applicable to your particular
+situation, just convert the data type before generating the file:
+      </p>
+      <div class="highlight-python">
+       <div class="highlight">
+        <pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="p">[</span><span class="n">colname</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">colname</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+</pre>
+       </div>
+      </div>
+     </div>
+     <div class="section" id="single-machine">
+      <h2>
+       Single machine
+       <a class="headerlink" href="#single-machine" title="Permalink to this headline">
+        ¶
+       </a>
+      </h2>
+      <p>
+       Datashader supports both Pandas and Dask dataframes, but Dask
+dataframes typically give higher performance even on a single machine,
+because it makes good use of all available cores, and it also supports
+out-of-core operation for datasets larger than memory.
+      </p>
+      <p>
+       Dasks works on chunks of the data at any one time, called partitions.
+With dask on a single machine, a rule of thumb for the number of
+partitions to use is
+       <code class="docutils literal">
+        <span class="pre">
+         multiprocessing.cpu_count()
+        </span>
+       </code>
+       , which allows
+Dask to use one thread per core for parallelizing computations.
+      </p>
+      <p>
+       When the entire dataset fits into memory at once, you can persist the data
+as a Dask dataframe prior to passing it into datashader, to ensure that
+data only needs to be loaded once:
+      </p>
+      <div class="highlight-python">
+       <div class="highlight">
+        <pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">dask</span> <span class="kn">import</span> <span class="n">dataframe</span> <span class="k">as</span> <span class="n">dd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">multiprocessing</span> <span class="kn">as</span> <span class="nn">mp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dask_df</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">from_pandas</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">npartitions</span><span class="o">=</span><span class="n">mp</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dask_df</span><span class="o">.</span><span class="n">persist</span><span class="p">()</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cvs</span> <span class="o">=</span> <span class="n">datashader</span><span class="o">.</span><span class="n">Canvas</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">agg</span> <span class="o">=</span> <span class="n">cvs</span><span class="o">.</span><span class="n">points</span><span class="p">(</span><span class="n">dask_df</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+</pre>
+       </div>
+      </div>
+      <p>
+       When the entire dataset doesn’t fit into memory at once, you should not
+use
+       <cite>
+        persist
+       </cite>
+       .  In our tests of this scenario, dask’s distributed scheduler gave
+better performance than the default scheduler, even on single machines:
+      </p>
+      <div class="highlight-python">
+       <div class="highlight">
+        <pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">dask</span> <span class="kn">import</span> <span class="n">distributed</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">multiprocessing</span> <span class="kn">as</span> <span class="nn">mp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cluster</span> <span class="o">=</span> <span class="n">distributed</span><span class="o">.</span><span class="n">LocalCluster</span><span class="p">(</span><span class="n">n_workers</span><span class="o">=</span><span class="n">mp</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">(),</span> <span class="n">threads_per_worker</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dask_client</span> <span class="o">=</span> <span class="n">distributed</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="n">cluster</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dask_df</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">from_pandas</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">npartitions</span><span class="o">=</span><span class="n">mp</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">())</span> <span class="c1"># Note no "persist"</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cvs</span> <span class="o">=</span> <span class="n">datashader</span><span class="o">.</span><span class="n">Canvas</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">agg</span> <span class="o">=</span> <span class="n">cvs</span><span class="o">.</span><span class="n">points</span><span class="p">(</span><span class="n">dask_df</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+</pre>
+       </div>
+      </div>
+     </div>
+     <div class="section" id="multiple-machines">
+      <h2>
+       Multiple machines
+       <a class="headerlink" href="#multiple-machines" title="Permalink to this headline">
+        ¶
+       </a>
+      </h2>
+      <p>
+       To use multiple nodes (different machines) at once, you can use a Dask
+dataframe with the distributed scheduler as shown
+above.
+       <code class="docutils literal">
+        <span class="pre">
+         client.persist(dask_df)
+        </span>
+       </code>
+       may help in certain cases, but if
+you are doing profiling of the aggregation step, be sure to include
+       <code class="docutils literal">
+        <span class="pre">
+         distributed.wait()
+        </span>
+       </code>
+       to block until the data is read into RAM on
+each worker.
+      </p>
+     </div>
+    </div>
+   </div>
+  </div>
+  <!-- END MAIN BODY OF DOCS ––––––––––––– -->
+  <footer class="footer">
+   <div class="footer-links">
+    <ul>
+     <li>
+      <span class="footer-title">
+       Links
+      </span>
+     </li>
+     <li>
+      <a href="getting_started/index.html">
+       Getting Started
+      </a>
+     </li>
+     <li>
+      <a href="user_guide/index.html">
+       User Guide
+      </a>
+     </li>
+     <li>
+      <a href="topics/index.html">
+       Topics
+      </a>
+     </li>
+     <li>
+      <a href="#">
+       Performance
+      </a>
+     </li>
+     <li>
+      <a href="api.html">
+       API
+      </a>
+     </li>
+     <li>
+      <a href="FAQ.html">
+       FAQ
+      </a>
+     </li>
+    </ul>
+    <ul>
+     <li>
+      <span class="footer-title">
+       Join Us
+      </span>
+     </li>
+     <li>
+      <a href="//twitter.com/datashader/.html">
+       Twitter
+      </a>
+     </li>
+     <li>
+      <a href="//github.com/bokeh/datashader/.html">
+       Github
+      </a>
+     </li>
+    </ul>
+    <ul class="copyright">
+     <li>
+      2016, Continuum Analytics
+     </li>
+    </ul>
+   </div>
+  </footer>
+  <!-- Google Analytics -->
+  <script>
+   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-61554933-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- MathJax Config -->
+  <script type="text/x-mathjax-config">
+   MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+  </script>
+  <!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+ </body>
+</html>
